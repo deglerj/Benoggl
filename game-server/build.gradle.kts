@@ -15,10 +15,20 @@ val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation("io.quarkus:quarkus-mutiny")
+    implementation("io.quarkus:quarkus-container-image-docker")
+    implementation("io.quarkus:quarkus-rest-client")
+    implementation("io.quarkus:quarkus-resteasy-jsonb")
+    implementation("io.quarkus:quarkus-resteasy-mutiny")
     implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-resteasy")
+    implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
+    implementation("io.quarkus:quarkus-rest-client-mutiny")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
+    implementation(project(":game-common"))
     testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
 }
 
 group = "org.jd.benoggl"
@@ -30,6 +40,8 @@ java {
 }
 
 allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
 

@@ -10,4 +10,7 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
-rootProject.name="game-common"
+
+rootProject.name = "benoggl"
+
+include("game-common", "game-server")
