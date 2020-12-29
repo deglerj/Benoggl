@@ -36,4 +36,7 @@ open class PlayerEntity : PanacheEntity() {
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "highestBidder")
     lateinit var wonBiddings: MutableCollection<BiddingEntity>
+
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "player")
+    lateinit var melds: MutableCollection<MeldEntity>
 }

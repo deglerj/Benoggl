@@ -28,4 +28,8 @@ open class MeldEntity : PanacheEntity() {
     @JoinColumn(name = "ROUND_ID", nullable = false)
     lateinit var round: RoundEntity
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAYER_ID", nullable = false)
+    lateinit var player: PlayerEntity
+
 }
