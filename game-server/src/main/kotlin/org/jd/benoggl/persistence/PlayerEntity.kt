@@ -27,9 +27,18 @@ open class PlayerEntity : PanacheEntity() {
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "player")
     lateinit var moves: MutableCollection<MoveEntity>
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "GAME_ID", nullable = false)
     lateinit var game: GameEntity
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(
+
+        name = "TRICK_PENDING_PLAYERS",
+        joinColumns = [JoinColumn(name = "TRICK_ID")],
+        inverseJoinColumns = [JoinColumn(name = "PLAYER_ID")]
+    )
+    var pendingInTrick: TrickEntity? = null
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "challengers")
     lateinit var challengerInBiddings: MutableCollection<BiddingEntity>

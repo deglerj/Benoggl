@@ -20,9 +20,19 @@ open class CardEntity : PanacheEntity() {
     lateinit var rank: Rank
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "HAND_CARDS",
+        joinColumns = [JoinColumn(name = "HAND_ID")],
+        inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
+    )
     var hand: HandEntity? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "MELD_CARDS",
+        joinColumns = [JoinColumn(name = "MELD_ID")],
+        inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
+    )
     var meld: MeldEntity? = null
 
     @OneToOne(mappedBy = "card", fetch = FetchType.LAZY)

@@ -18,4 +18,8 @@ open class MoveEntity : PanacheEntity() {
     @ManyToOne(optional = false)
     @JoinColumn(name = "PLAYER_ID", nullable = false)
     lateinit var player: PlayerEntity
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "TRICK_ID", nullable = false)
+    lateinit var trick: TrickEntity
 }

@@ -17,11 +17,6 @@ open class MeldEntity : PanacheEntity() {
     var points: Int = -1
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "MELD_CARDS",
-        joinColumns = [JoinColumn(name = "MELD_ID")],
-        inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
-    )
     lateinit var cards: MutableCollection<CardEntity>
 
     @ManyToOne(fetch = FetchType.LAZY)

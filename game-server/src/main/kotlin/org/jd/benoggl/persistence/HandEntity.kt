@@ -16,11 +16,6 @@ open class HandEntity : PanacheEntity() {
     lateinit var type: HandType
 
     @OneToMany(cascade = [CascadeType.ALL])
-    @JoinTable(
-        name = "HAND_CARDS",
-        joinColumns = [JoinColumn(name = "HAND_ID")],
-        inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
-    )
     lateinit var cards: MutableCollection<CardEntity>
 
     @OneToOne(mappedBy = "hand", fetch = FetchType.LAZY)
