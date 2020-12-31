@@ -15,11 +15,11 @@ open class HandEntity : PanacheEntity() {
     @Column(nullable = false)
     lateinit var type: HandType
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "hand")
     lateinit var cards: MutableCollection<CardEntity>
 
-    @OneToOne(mappedBy = "hand", fetch = FetchType.LAZY)
-    var player: PlayerEntity? = null
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "hand")
+    var playerHand: PlayerHandEntity? = null
 
     @OneToOne(mappedBy = "dabb", fetch = FetchType.LAZY)
     var round: RoundEntity? = null

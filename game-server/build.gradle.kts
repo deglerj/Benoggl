@@ -21,6 +21,7 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-jdbc-h2")
+    implementation("io.quarkus:quarkus-test-h2")
     implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
     implementation(("io.quarkus:quarkus-hibernate-validator"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
