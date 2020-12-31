@@ -1,0 +1,80 @@
+@startuml
+
+object "Bid" as bid {
+    points: Int
+}
+
+object "Bidding" as bidding {
+    state: BiddingState
+    round: RoundState
+    highestBid: Int?
+}
+
+object "Card" as card {
+    suit: Suit
+    rank: Rank
+}
+
+object "Game" as game {
+    uid: String
+    state: GameState
+    type: GameType
+}
+
+object "Hand" as hand {
+    type: HandType
+}
+
+object "Meld" as meld {
+    points: Int
+}
+
+object "Move" as move {
+}
+
+object "Player" as player {
+    uid: String
+    name: String
+}
+
+object "Round" as round {
+    number: Int
+    state: RoundState
+    type: RoundType
+    trump: Suit?
+}
+
+object "Trick" as trick {
+    number: Int
+    state: TrickState
+}
+
+bid "0..n" <-- "1" bidding
+
+bidding "0..1" <-- "1" round
+
+card "0..n" <-- "0..1" hand
+card "0..n" <-- "0..1" meld
+card "1" <-- "0..1" move
+
+hand "1" <-- "0..1" player
+hand "1" <-- "0..1" round: "dabb"
+
+meld "0..n" <-- "1" round
+
+move "0..n" <-- "1" trick
+
+player "1" <-- "0..n" bid
+player "0..n" <-- "0..n" bidding: "challengers"
+player "0..1" <-- "0..n" bidding: "highest\nbidder"
+player "1..n" <-- "1" game
+player "1" <-- "0..n" meld
+player "1" <-- "0..n" move
+player "0..n" <-- "0..n" trick: "pending"
+player "0..1" <-- "0..n" trick: "winner"
+
+round "1..n" <-- "1" game
+
+trick "0..n" <-- "1" round
+
+@enduml
