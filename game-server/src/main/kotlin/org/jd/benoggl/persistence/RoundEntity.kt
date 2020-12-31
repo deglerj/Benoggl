@@ -36,6 +36,9 @@ open class RoundEntity : PanacheEntity() {
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
     lateinit var melds: MutableCollection<MeldEntity>
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "round")
+    lateinit var playerHands: MutableCollection<PlayerHandEntity>
+
     var trump: Suit? = null
 
     @ManyToOne(optional = false)

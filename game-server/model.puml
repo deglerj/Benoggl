@@ -1,5 +1,7 @@
 @startuml
 
+allow_mixing
+
 object "Bid" as bid {
     points: Int
 }
@@ -37,6 +39,9 @@ object "Player" as player {
     name: String
 }
 
+object "PlayerHand" as player_hand {
+}
+
 object "Round" as round {
     number: Int
     state: RoundState
@@ -49,6 +54,7 @@ object "Trick" as trick {
     state: TrickState
 }
 
+
 bid "0..n" <-- "1" bidding
 
 bidding "0..1" <-- "1" round
@@ -57,8 +63,8 @@ card "0..n" <-- "0..1" hand
 card "0..n" <-- "0..1" meld
 card "1" <-- "0..1" move
 
-hand "1" <-- "0..1" player
 hand "1" <-- "0..1" round: "dabb"
+hand "1" <-- "0..1" player_hand
 
 meld "0..n" <-- "1" round
 
@@ -73,7 +79,10 @@ player "1" <-- "0..n" move
 player "0..n" <-- "0..n" trick: "pending"
 player "0..1" <-- "0..n" trick: "winner"
 
+player "1" <-- "0..n" player_hand
+
 round "1..n" <-- "1" game
+round "1" <-- "0..n" player_hand
 
 trick "0..n" <-- "1" round
 

@@ -7,6 +7,7 @@ data class Round(
     val bidding: Bidding,
     val melds: MutableCollection<Meld>,
     var trump: Suit?,
+    val playerHands: MutableCollection<PlayerHand>,
     var dabb: Hand,
     val tricks: MutableList<Trick>
 )

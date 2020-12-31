@@ -1,17 +1,16 @@
 package org.jd.benoggl.mapper
 
 import org.jd.benoggl.model.Game
-import org.jd.benoggl.model.Hand
 import org.jd.benoggl.model.Round
 import org.jd.benoggl.persistence.GameEntity
 import org.jd.benoggl.rest.dtos.GameDto
 
-fun GameDto.toModel(rounds: List<Round>, handResolver: (String?) -> Hand?) = Game(
+fun GameDto.toModel(rounds: List<Round>) = Game(
     this.uid!!,
     this.state!!,
     this.type!!,
     rounds.toMutableList(),
-    this.players!!.map { it.toModel(handResolver) }.toMutableList()
+    this.players!!.map { it.toModel() }.toMutableList()
 )
 
 fun Game.toDto() = GameDto(

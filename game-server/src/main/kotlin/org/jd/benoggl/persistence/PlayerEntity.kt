@@ -20,9 +20,8 @@ open class PlayerEntity : PanacheEntity() {
     @NotBlank
     lateinit var name: String
 
-    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
-    @JoinColumn(name = "HAND_ID")
-    lateinit var hand: HandEntity
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+    lateinit var playerHands: MutableCollection<PlayerHandEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "player")
     lateinit var moves: MutableCollection<MoveEntity>
@@ -31,9 +30,11 @@ open class PlayerEntity : PanacheEntity() {
     @JoinColumn(name = "GAME_ID", nullable = false)
     lateinit var game: GameEntity
 
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "winner")
+    lateinit var wonTricks: MutableCollection<TrickEntity>
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
-
         name = "TRICK_PENDING_PLAYERS",
         joinColumns = [JoinColumn(name = "TRICK_ID")],
         inverseJoinColumns = [JoinColumn(name = "PLAYER_ID")]

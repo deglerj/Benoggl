@@ -23,13 +23,12 @@ open class TrickEntity : PanacheEntity() {
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "trick")
     lateinit var moves: MutableList<MoveEntity>
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "pendingInTrick")
     lateinit var pendingPlayers: MutableList<PlayerEntity>
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WINNER_PLAYER_ID")
     var winner: PlayerEntity? = null
-
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROUND_ID", nullable = false)
