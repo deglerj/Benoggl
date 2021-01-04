@@ -54,7 +54,7 @@ class HandResourceTest {
             .header("Player-UID", "1")
             .`when`().get("/game/1/round/42/hand")
             .then()
-            .statusCode(500)
+            .statusCode(400)
     }
 
     @Test

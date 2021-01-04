@@ -16,6 +16,9 @@ import org.jd.benoggl.truncateAllTables
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
@@ -26,6 +29,20 @@ import javax.ws.rs.core.MediaType
 @QuarkusTestResource(H2DatabaseTestResource::class)
 @Transactional
 class GameResourceTest {
+
+    companion object {
+        val player1 = PlayerDto("1", "player 1")
+        val player2 = PlayerDto("2", "player 2")
+
+        @JvmStatic
+        @Suppress("unused")
+        fun createGamesWithMissingValues(): Stream<GameDto> = Stream.of(
+            GameDto(null, GameState.RUNNING, GameType.NORMAL, listOf(player1, player2)),
+            GameDto("uid", null, GameType.NORMAL, listOf(player1, player2)),
+            GameDto("uid", GameState.RUNNING, null, listOf(player1, player2)),
+            GameDto("uid", GameState.RUNNING, GameType.NORMAL, null)
+        )
+    }
 
     @Inject
     @field: Default
@@ -38,8 +55,6 @@ class GameResourceTest {
 
     @Test
     fun createValidNewGame() {
-        val player1 = PlayerDto("1", "player 1")
-        val player2 = PlayerDto("2", "player 2")
         val gameDto = GameDto("3", GameState.RUNNING, GameType.NORMAL, listOf(player1, player2))
 
         given()
@@ -63,33 +78,86 @@ class GameResourceTest {
         assertEquals(2, gameEntity.rounds[0].playerHands.size)
     }
 
-    @Test
-    fun createNewGameWithMissingValues() {
-
+    @ParameterizedTest
+    @MethodSource("createGamesWithMissingValues")
+    fun createNewGameWithMissingValues(gameDto: GameDto) {
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 
     @Test
     fun createNewGameWithInvalidState() {
+        val gameDto = GameDto("uid", GameState.FINISHED, GameType.NORMAL, listOf(player1, player2))
 
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 
     @Test
     fun createNewGameWithTooFewPlayers() {
+        val gameDto = GameDto(null, GameState.RUNNING, GameType.NORMAL, listOf(player1))
 
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 
     @Test
     fun createNewGameWithTooManyPlayers() {
+        val player3 = PlayerDto("3", "player 3")
+        val player4 = PlayerDto("4", "player 4")
+        val player5 = PlayerDto("5", "player 5")
 
+        val gameDto =
+            GameDto(null, GameState.RUNNING, GameType.NORMAL, listOf(player1, player2, player3, player4, player5))
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 
     @Test
     fun createNewGameWithDuplicateUid() {
+        val gameDto = GameDto("uid", GameState.RUNNING, GameType.NORMAL, listOf(player1, player2))
 
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(204)
+
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 
     @Test
     fun createNewGameWithNonUniquePlayerIds() {
+        val gameDto = GameDto("uid", GameState.RUNNING, GameType.NORMAL, listOf(player1, player1))
 
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(gameDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(400)
     }
 }

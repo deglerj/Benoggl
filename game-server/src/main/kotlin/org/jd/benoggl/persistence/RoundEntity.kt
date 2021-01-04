@@ -13,6 +13,10 @@ import javax.validation.constraints.Min
 open class RoundEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<RoundEntity, Long> {
+
+        fun findByNumber(number: Int, gameUid: String): RoundEntity? {
+            return RoundEntity.find("number = ?1 and game.uid = ?2", number, gameUid).firstResult()
+        }
     }
 
     @Column(nullable = false)
