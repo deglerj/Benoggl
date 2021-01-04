@@ -1,12 +1,11 @@
 package org.jd.benoggl.resources
 
 import org.jd.benoggl.entities.GameEntity
-import org.jd.benoggl.entities.PlayerEntity
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.model.GameState
 import org.jd.benoggl.resources.dtos.GameDto
 import org.jd.benoggl.resources.dtos.PlayerDto
-import org.jd.benoggl.services.RoundService
+import org.jd.benoggl.services.GameService
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.transaction.Transactional
@@ -26,19 +25,17 @@ class GameResource {
 
     @Inject
     @field: Default
-    internal lateinit var roundService: RoundService
-
-    // TODO move logic to GameMaster
+    internal lateinit var gameService: GameService
 
     @PUT
     fun createNewGame(dto: GameDto) {
         validate(dto)
 
-        val entity = createGame(dto)
-        addPlayers(entity, dto.players!!)
-        entity.persist()
-
-        startNewRound(entity)
+        gameService.createAndStartGame(
+            dto.uid!!,
+            dto.type!!,
+            dto.players!!.map { it.toModel() }.toList()
+        )
     }
 
     private fun validate(dto: GameDto) {
@@ -77,31 +74,6 @@ class GameResource {
         if (state != GameState.RUNNING) {
             throw BadRequestException("New games must be created in RUNNING state")
         }
-    }
-
-    private fun createGame(dto: GameDto): GameEntity {
-        val game = GameEntity()
-        game.uid = dto.uid!!
-        game.state = dto.state!!
-        game.type = dto.type!!
-        game.rounds = mutableListOf()
-        game.players = mutableListOf()
-        return game
-    }
-
-    private fun addPlayers(game: GameEntity, players: List<PlayerDto>) {
-        players.map { it ->
-            val player = PlayerEntity()
-            player.uid = it.uid!!
-            player.name = it.name!!
-            player.game = game
-            player
-        }
-            .forEach { game.players.add(it) }
-    }
-
-    private fun startNewRound(entity: GameEntity) {
-        roundService.startNewRound(entity.toModel())
     }
 
 }
