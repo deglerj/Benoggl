@@ -11,13 +11,7 @@ open class PlayerHandEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<PlayerHandEntity, Long> {
 
-        public open fun findPlayerHand(playerUid: String, gameUid: String, roundNumber: Int): PlayerHandEntity {
-            println("ENTITIES: " + PlayerHandEntity.count())
-            PlayerHandEntity.listAll().forEach {
-                println("HAND: player ${it.player.uid}, game ${it.round.game.uid}, round ${it.round.number}")
-            }
-
-
+        fun findPlayerHand(playerUid: String, gameUid: String, roundNumber: Int): PlayerHandEntity {
             val entities = PlayerHandEntity.find(
                 "player.uid = ?1 and round.game.uid = ?2 and round.number = ?3",
                 playerUid, gameUid, roundNumber
@@ -34,10 +28,9 @@ open class PlayerHandEntity : PanacheEntity() {
                 }
             }
         }
-
     }
 
-    @ManyToOne(cascade = [CascadeType.ALL], optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "PLAYER_ID", nullable = false)
     lateinit var player: PlayerEntity
 
@@ -45,7 +38,7 @@ open class PlayerHandEntity : PanacheEntity() {
     @JoinColumn(name = "HAND_ID", nullable = false)
     lateinit var hand: HandEntity
 
-    @ManyToOne(cascade = [CascadeType.ALL], optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ROUND_ID", nullable = false)
     lateinit var round: RoundEntity
 

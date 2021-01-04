@@ -28,7 +28,7 @@ open class BiddingEntity : PanacheEntity() {
         joinColumns = [JoinColumn(name = "BIDDING_ID")],
         inverseJoinColumns = [JoinColumn(name = "PLAYER_ID")]
     )
-    lateinit var challengers: MutableCollection<PlayerEntity>
+    lateinit var challengers: MutableList<PlayerEntity>
 
     @ManyToOne(cascade = [CascadeType.ALL])
     var highestBidder: PlayerEntity? = null

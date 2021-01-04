@@ -36,14 +36,14 @@ open class RoundEntity : PanacheEntity() {
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
     lateinit var melds: MutableCollection<MeldEntity>
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "round")
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "round")
     lateinit var playerHands: MutableCollection<PlayerHandEntity>
 
     var trump: Suit? = null
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = [CascadeType.ALL], optional = false)
     @JoinColumn(name = "DABB_HAND_ID", nullable = false)
-    lateinit var dabb: HandEntity;
+    lateinit var dabb: HandEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
     lateinit var tricks: MutableCollection<TrickEntity>
