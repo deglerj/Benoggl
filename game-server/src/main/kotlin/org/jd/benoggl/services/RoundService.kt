@@ -21,6 +21,7 @@ class RoundService {
         val gameEntity = GameEntity.findByUid(game.uid)!!
 
         val round = createRound(gameEntity, game)
+        gameEntity.rounds.add(round)
         round.bidding = createBidding(gameEntity)
         dealCards(game, gameEntity, round)
         round.persist()

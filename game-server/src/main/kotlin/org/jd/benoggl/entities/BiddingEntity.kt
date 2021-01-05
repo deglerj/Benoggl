@@ -20,7 +20,7 @@ open class BiddingEntity : PanacheEntity() {
     lateinit var round: RoundEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "bidding")
-    lateinit var bids: MutableCollection<BidEntity>
+    var bids: MutableCollection<BidEntity> = mutableListOf()
 
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(

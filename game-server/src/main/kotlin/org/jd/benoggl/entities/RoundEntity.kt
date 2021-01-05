@@ -14,9 +14,12 @@ open class RoundEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<RoundEntity, Long> {
 
-        fun findByNumber(number: Int, gameUid: String): RoundEntity? {
-            return RoundEntity.find("number = ?1 and game.uid = ?2", number, gameUid).firstResult()
-        }
+        fun findByGameUid(gameUid: String): List<RoundEntity> =
+            RoundEntity.find("game.uid = ?1 order by number", gameUid).list()
+
+        fun findByNumber(number: Int, gameUid: String): RoundEntity? =
+            RoundEntity.find("number = ?1 and game.uid = ?2", number, gameUid).firstResult()
+
     }
 
     @Column(nullable = false)
@@ -38,7 +41,7 @@ open class RoundEntity : PanacheEntity() {
     lateinit var bidding: BiddingEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
-    lateinit var melds: MutableCollection<MeldEntity>
+    var melds: MutableCollection<MeldEntity> = mutableListOf()
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "round")
     lateinit var playerHands: MutableCollection<PlayerHandEntity>
@@ -50,6 +53,6 @@ open class RoundEntity : PanacheEntity() {
     lateinit var dabb: HandEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
-    lateinit var tricks: MutableCollection<TrickEntity>
+    var tricks: MutableCollection<TrickEntity> = mutableListOf()
 
 }
