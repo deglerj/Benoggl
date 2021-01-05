@@ -160,4 +160,33 @@ class GameResourceTest {
             .then()
             .statusCode(400)
     }
+
+    @Test
+    fun getGame() {
+        val putDto = GameDto("uid", GameState.RUNNING, GameType.NORMAL, listOf(player1, player2))
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(putDto)
+            .`when`().put("/game")
+            .then()
+            .statusCode(204)
+
+        val getDto = given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .`when`().get("/game/uid")
+            .then()
+            .statusCode(200)
+            .extract().body().`as`(GameDto::class.java)
+
+        assertEquals(putDto, getDto)
+    }
+
+    @Test
+    fun getGameWithUnknownUid() {
+        given()
+            .contentType(MediaType.APPLICATION_JSON)
+            .`when`().get("/game/whatever")
+            .then()
+            .statusCode(404)
+    }
 }

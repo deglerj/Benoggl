@@ -1,6 +1,7 @@
 package org.jd.benoggl.resources
 
 import org.jd.benoggl.entities.GameEntity
+import org.jd.benoggl.mappers.toDto
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.model.GameState
 import org.jd.benoggl.resources.dtos.GameDto
@@ -74,6 +75,13 @@ class GameResource {
         if (state != GameState.RUNNING) {
             throw BadRequestException("New games must be created in RUNNING state")
         }
+    }
+
+    @GET
+    @Path("/{gameUid}")
+    fun getGame(@PathParam("gameUid") gameUid: String): GameDto {
+        val entity = GameEntity.findByUid(gameUid) ?: throw NotFoundException("Game $gameUid does not exist")
+        return entity.toModel().toDto()
     }
 
 }
