@@ -79,9 +79,7 @@ class GameResource {
 
     @GET
     @Path("/{gameUid}")
-    fun getGame(@PathParam("gameUid") gameUid: String): GameDto {
-        val entity = GameEntity.findByUid(gameUid) ?: throw NotFoundException("Game $gameUid does not exist")
-        return entity.toModel().toDto()
-    }
+    fun getGame(@PathParam("gameUid") gameUid: String) =
+        GameEntity.findByUid(gameUid)?.toModel()?.toDto() ?: throw NotFoundException("Game $gameUid does not exist")
 
 }

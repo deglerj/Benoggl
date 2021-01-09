@@ -19,16 +19,14 @@ class RoundResource {
         if (GameEntity.findByUid(gameUid) == null) {
             throw NotFoundException("Game $gameUid does not exist")
         }
-        
+
         return RoundEntity.findByGameUid(gameUid).map { it.toModel().toDto() }
     }
 
 
     @GET
     @Path("/{roundNumber}")
-    fun getRound(@PathParam("gameUid") gameUid: String, @PathParam("roundNumber") roundNumber: Int): RoundDto {
-        val entity = RoundEntity.findByNumber(roundNumber, gameUid)
+    fun getRound(@PathParam("gameUid") gameUid: String, @PathParam("roundNumber") roundNumber: Int) =
+        RoundEntity.findByNumber(roundNumber, gameUid)?.toModel()?.toDto()
             ?: throw NotFoundException("Round $roundNumber for game $gameUid does not exist")
-        return entity.toModel().toDto()
-    }
 }

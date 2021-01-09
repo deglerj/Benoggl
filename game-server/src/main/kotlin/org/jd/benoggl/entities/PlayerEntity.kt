@@ -10,6 +10,9 @@ import javax.validation.constraints.NotBlank
 open class PlayerEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<PlayerEntity, Long> {
+
+        fun findByUid(playerUid: String, gameUid: String): PlayerEntity? =
+            PlayerEntity.find("uid = ?1 and game.uid = ?2", playerUid, gameUid).firstResult()
     }
 
     @Column(nullable = false)

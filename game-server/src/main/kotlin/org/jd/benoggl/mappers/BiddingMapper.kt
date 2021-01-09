@@ -6,17 +6,17 @@ import org.jd.benoggl.model.Bidding
 import org.jd.benoggl.model.Player
 import org.jd.benoggl.resources.dtos.BiddingDto
 
-fun BiddingDto.toModel(bids: Collection<Bid>, playerResolver: (String?) -> Player?) = Bidding(
-    this.state!!,
-    bids.toMutableList(),
-    this.challengerUids!!.mapNotNull(playerResolver).toMutableList(),
-    playerResolver(this.highestBidderUid),
-    this.highestBid
-)
+fun BiddingDto.toModel(bids: Collection<Bid>, challengers: List<Player>, playerResolver: (String?) -> Player?) =
+    Bidding(
+        this.state!!,
+        bids.toMutableList(),
+        challengers.toMutableList(),
+        playerResolver(this.highestBidderUid),
+        this.highestBid
+    )
 
 fun Bidding.toDto() = BiddingDto(
     this.state,
-    this.challengers.map { it.uid }.toList(),
     this.highestBidder?.uid,
     this.highestBid
 )
