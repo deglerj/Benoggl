@@ -56,15 +56,15 @@ class BiddingResource {
         val playerUid = bid.playerUid!!
         val player = findPlayer(playerUid, gameUid)
 
-        if (!bidService.isCurrentChallenger(gameUid, roundNumber, player)) {
+        if (!bidService.isCurrentChallenger(roundNumber, gameUid, player)) {
             throw BadRequestException("Player $playerUid is not the current challenger in round $roundNumber of game $gameUid")
         }
 
-        if (!bidService.isValidBid(gameUid, roundNumber, player, bid.points!!)) {
+        if (!bidService.isValidBid(roundNumber, gameUid, player, bid.points!!)) {
             throw BadRequestException("Bid is not valid. Please ensure it's higher than the other bids.")
         }
 
-        bidService.placeBid(gameUid, roundNumber, player, bid.points)
+        bidService.placeBid(roundNumber, gameUid, player, bid.points)
     }
 
     private fun findPlayer(playerUid: String, gameUid: String): Player {
@@ -73,7 +73,7 @@ class BiddingResource {
     }
 
     @GET
-    @Path("/challengers")
+    @Path("/challenger")
     fun getChallengers(
         @PathParam("gameUid") gameUid: String,
         @PathParam("roundNumber") roundNumber: Int
@@ -83,7 +83,7 @@ class BiddingResource {
     }
 
     @DELETE
-    @Path("/challengers/{playerUid}")
+    @Path("/challenger/{playerUid}")
     fun removeChallengers(
         @PathParam("gameUid") gameUid: String,
         @PathParam("roundNumber") roundNumber: Int,
@@ -93,11 +93,11 @@ class BiddingResource {
 
         val player = findPlayer(playerUid, gameUid)
 
-        if (!bidService.isCurrentChallenger(gameUid, roundNumber, player)) {
+        if (!bidService.isCurrentChallenger(roundNumber, gameUid, player)) {
             throw BadRequestException("Player $playerUid is not the current challenger in round $roundNumber of game $gameUid")
         }
 
-        bidService.removeChallenger(gameUid, roundNumber, player)
+        bidService.removeChallenger(roundNumber, gameUid, player)
     }
 
     private fun findRound(roundNumber: Int, gameUid: String): RoundEntity {

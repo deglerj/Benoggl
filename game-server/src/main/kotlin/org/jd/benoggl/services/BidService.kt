@@ -1,6 +1,12 @@
 package org.jd.benoggl.services
 
+import org.jd.benoggl.entities.BidEntity
+import org.jd.benoggl.entities.BiddingEntity
+import org.jd.benoggl.entities.PlayerEntity
+import org.jd.benoggl.entities.RoundEntity
+import org.jd.benoggl.model.BiddingState
 import org.jd.benoggl.model.Player
+import org.jd.benoggl.model.RoundState
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
 
@@ -8,28 +14,78 @@ import javax.transaction.Transactional
 @Transactional
 class BidService {
 
-    fun isCurrentChallenger(gameUid: String, roundNumber: Int, player: Player) =
-        findCurrentChallengerUid(gameUid, roundNumber) == player.uid
-
-    fun removeChallenger(gameUid: String, roundNumber: Int, player: Player) {
-        // TODO implement
+    companion object {
+        const val MIN_BID_DISTANCE = 10
     }
 
-    fun isValidBid(gameUid: String, roundNumber: Int, player: Player, points: Int): Boolean {
-        if (!isCurrentChallenger(gameUid, roundNumber, player)) {
+    fun isCurrentChallenger(roundNumber: Int, gameUid: String, player: Player) =
+        findCurrentChallengerUid(roundNumber, gameUid) == player.uid
+
+    fun removeChallenger(roundNumber: Int, gameUid: String, player: Player, persist: Boolean = true) {
+        val bidding = findBidding(roundNumber, gameUid)!!
+
+        if (bidding.challengers[0].uid != player.uid) {
+            throw IllegalArgumentException("Player ${player.uid} is not the current challenger for round $roundNumber of game $gameUid")
+        }
+
+        bidding.challengers.removeAt(0)
+
+        if (bidding.challengers.isEmpty()) {
+            bidding.state = BiddingState.FINISHED
+        }
+    }
+
+    fun isValidBid(roundNumber: Int, gameUid: String, player: Player, points: Int): Boolean {
+        if (!isCurrentChallenger(roundNumber, gameUid, player)) {
             return false
         }
 
-        // TODO implement
-        return true
+        val highestBid = findBidding(roundNumber, gameUid)!!.highestBid ?: 0
+        return points >= highestBid + MIN_BID_DISTANCE
     }
 
-    fun placeBid(gameUid: String, roundNumber: Int, player: Player, points: Int) {
-        // TODO implement
+    fun placeBid(roundNumber: Int, gameUid: String, player: Player, points: Int) {
+        if (!isValidBid(roundNumber, gameUid, player, points)) {
+            throw RuntimeException("Bid $points by player ${player.uid} for round $roundNumber of game $gameUid is not valid")
+        }
+
+        val playerEntity = PlayerEntity.findByUid(player.uid, gameUid)!!
+
+        val bidding = findBidding(roundNumber, gameUid)!!
+        if (isFirstBid(bidding)) {
+            removeChallenger(roundNumber, gameUid, player, false)
+            bidding.highestBidder = playerEntity
+        } else {
+            swapHighestBidderAndCurrentChallenger(bidding)
+        }
+        bidding.highestBid = points
+
+        val bid = BidEntity()
+        bid.player = playerEntity
+        bid.points = points
+        bid.bidding = bidding
+        bidding.bids.add(bid)
+
+        bidding.persist()
     }
 
-    private fun findCurrentChallengerUid(gameUid: String, roundNumber: Int): String? {
-        // TODO implement
-        return null
+    private fun swapHighestBidderAndCurrentChallenger(bidding: BiddingEntity) {
+        val newHighestBidder = bidding.challengers[0]
+        bidding.challengers[0] = bidding.highestBidder!!
+        bidding.highestBidder = newHighestBidder
+    }
+
+    private fun isFirstBid(bidding: BiddingEntity) =
+        bidding.highestBidder == null
+
+    private fun findCurrentChallengerUid(roundNumber: Int, gameUid: String): String? =
+        findBidding(roundNumber, gameUid)?.challengers?.first()?.uid
+
+    private fun findBidding(roundNumber: Int, gameUid: String): BiddingEntity? {
+        val round = RoundEntity.findByNumber(roundNumber, gameUid)
+        if (round == null || round.state != RoundState.BIDDING) {
+            return null
+        }
+        return round.bidding
     }
 }
