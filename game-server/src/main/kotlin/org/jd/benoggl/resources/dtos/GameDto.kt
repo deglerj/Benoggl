@@ -1,7 +1,7 @@
 package org.jd.benoggl.resources.dtos
 
-import org.jd.benoggl.model.GameState
-import org.jd.benoggl.model.GameType
+import org.jd.benoggl.models.GameState
+import org.jd.benoggl.models.GameType
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull

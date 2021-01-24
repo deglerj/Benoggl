@@ -1,8 +1,8 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.MoveEntity
-import org.jd.benoggl.model.Move
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.Move
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.MoveDto
 
 fun MoveDto.toModel(playerResolver: (String?) -> Player?) = Move(

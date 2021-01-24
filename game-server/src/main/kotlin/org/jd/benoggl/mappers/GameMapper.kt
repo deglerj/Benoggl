@@ -1,8 +1,8 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.GameEntity
-import org.jd.benoggl.model.Game
-import org.jd.benoggl.model.Round
+import org.jd.benoggl.models.Game
+import org.jd.benoggl.models.Round
 import org.jd.benoggl.resources.dtos.GameDto
 
 fun GameDto.toModel(rounds: List<Round>) = Game(

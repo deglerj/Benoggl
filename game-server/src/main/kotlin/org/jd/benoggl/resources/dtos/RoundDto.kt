@@ -1,8 +1,8 @@
 package org.jd.benoggl.resources.dtos
 
-import org.jd.benoggl.model.RoundState
-import org.jd.benoggl.model.RoundType
-import org.jd.benoggl.model.Suit
+import org.jd.benoggl.models.RoundState
+import org.jd.benoggl.models.RoundType
+import org.jd.benoggl.models.Suit
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 

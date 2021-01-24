@@ -1,7 +1,7 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.HandEntity
-import org.jd.benoggl.model.Hand
+import org.jd.benoggl.models.Hand
 import org.jd.benoggl.resources.dtos.HandDto
 
 fun HandDto.toModel() = Hand(

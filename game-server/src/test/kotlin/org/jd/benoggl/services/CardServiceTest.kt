@@ -1,7 +1,7 @@
 package org.jd.benoggl.services
 
 import io.quarkus.test.junit.QuarkusTest
-import org.jd.benoggl.model.HandType
+import org.jd.benoggl.models.HandType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import javax.enterprise.inject.Default

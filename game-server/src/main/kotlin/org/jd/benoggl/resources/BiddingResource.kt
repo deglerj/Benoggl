@@ -4,7 +4,7 @@ import org.jd.benoggl.entities.PlayerEntity
 import org.jd.benoggl.entities.RoundEntity
 import org.jd.benoggl.mappers.toDto
 import org.jd.benoggl.mappers.toModel
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.BidDto
 import org.jd.benoggl.resources.dtos.BiddingDto
 import org.jd.benoggl.resources.dtos.PlayerDto

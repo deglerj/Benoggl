@@ -1,4 +1,4 @@
-package org.jd.benoggl.model
+package org.jd.benoggl.models
 
 data class Game(
     val uid: String,

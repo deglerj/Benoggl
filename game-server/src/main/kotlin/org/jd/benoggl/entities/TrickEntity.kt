@@ -2,7 +2,7 @@ package org.jd.benoggl.entities
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import org.jd.benoggl.model.TrickState
+import org.jd.benoggl.models.TrickState
 import javax.persistence.*
 import javax.validation.constraints.Min
 

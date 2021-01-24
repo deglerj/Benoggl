@@ -4,9 +4,9 @@ import org.jd.benoggl.entities.BidEntity
 import org.jd.benoggl.entities.BiddingEntity
 import org.jd.benoggl.entities.PlayerEntity
 import org.jd.benoggl.entities.RoundEntity
-import org.jd.benoggl.model.BiddingState
-import org.jd.benoggl.model.Player
-import org.jd.benoggl.model.RoundState
+import org.jd.benoggl.models.BiddingState
+import org.jd.benoggl.models.Player
+import org.jd.benoggl.models.RoundState
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
 

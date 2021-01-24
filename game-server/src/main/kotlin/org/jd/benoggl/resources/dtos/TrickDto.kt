@@ -1,6 +1,6 @@
 package org.jd.benoggl.resources.dtos
 
-import org.jd.benoggl.model.TrickState
+import org.jd.benoggl.models.TrickState
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 

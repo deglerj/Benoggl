@@ -6,8 +6,8 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.mappers.toModel
-import org.jd.benoggl.model.GameType
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.GameType
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.RoundDto
 import org.jd.benoggl.services.GameService
 import org.jd.benoggl.services.RoundService

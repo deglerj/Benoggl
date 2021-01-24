@@ -2,9 +2,9 @@ package org.jd.benoggl.entities
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import org.jd.benoggl.model.RoundState
-import org.jd.benoggl.model.RoundType
-import org.jd.benoggl.model.Suit
+import org.jd.benoggl.models.RoundState
+import org.jd.benoggl.models.RoundType
+import org.jd.benoggl.models.Suit
 import javax.persistence.*
 import javax.validation.constraints.Min
 

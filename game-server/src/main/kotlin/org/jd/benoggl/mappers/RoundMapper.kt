@@ -1,7 +1,7 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.RoundEntity
-import org.jd.benoggl.model.*
+import org.jd.benoggl.models.*
 import org.jd.benoggl.resources.dtos.RoundDto
 
 fun RoundDto.toModel(

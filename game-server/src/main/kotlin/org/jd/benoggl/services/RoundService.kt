@@ -1,7 +1,7 @@
 package org.jd.benoggl.services
 
 import org.jd.benoggl.entities.*
-import org.jd.benoggl.model.*
+import org.jd.benoggl.models.*
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Default
 import javax.inject.Inject

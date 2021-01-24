@@ -1,8 +1,8 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.BidEntity
-import org.jd.benoggl.model.Bid
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.Bid
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.BidDto
 
 fun BidDto.toModel(playerResolver: (String?) -> Player?) = Bid(

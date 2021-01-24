@@ -1,6 +1,6 @@
 package org.jd.benoggl.services
 
-import org.jd.benoggl.model.*
+import org.jd.benoggl.models.*
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped

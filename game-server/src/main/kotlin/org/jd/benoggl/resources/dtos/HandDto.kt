@@ -1,6 +1,6 @@
 package org.jd.benoggl.resources.dtos
 
-import org.jd.benoggl.model.HandType
+import org.jd.benoggl.models.HandType
 import javax.validation.constraints.NotNull
 
 data class HandDto(

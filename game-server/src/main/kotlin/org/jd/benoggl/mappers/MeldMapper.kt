@@ -1,8 +1,8 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.MeldEntity
-import org.jd.benoggl.model.Meld
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.Meld
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.MeldDto
 
 fun MeldDto.toModel(playerResolver: (String?) -> Player?) = Meld(

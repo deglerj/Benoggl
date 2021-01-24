@@ -3,9 +3,9 @@ package org.jd.benoggl.services
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.entities.PlayerEntity
 import org.jd.benoggl.mappers.toModel
-import org.jd.benoggl.model.GameState
-import org.jd.benoggl.model.GameType
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.GameState
+import org.jd.benoggl.models.GameType
+import org.jd.benoggl.models.Player
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Default
 import javax.inject.Inject

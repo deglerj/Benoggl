@@ -1,7 +1,7 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.PlayerEntity
-import org.jd.benoggl.model.Player
+import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.PlayerDto
 
 fun PlayerDto.toModel() = Player(

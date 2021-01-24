@@ -1,9 +1,9 @@
 package org.jd.benoggl.mappers
 
 import org.jd.benoggl.entities.TrickEntity
-import org.jd.benoggl.model.Move
-import org.jd.benoggl.model.Player
-import org.jd.benoggl.model.Trick
+import org.jd.benoggl.models.Move
+import org.jd.benoggl.models.Player
+import org.jd.benoggl.models.Trick
 import org.jd.benoggl.resources.dtos.TrickDto
 
 fun TrickDto.toModel(moves: List<Move>, playerResolver: (String?) -> Player?) = Trick(

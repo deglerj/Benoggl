@@ -2,7 +2,7 @@ package org.jd.benoggl.entities
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
-import org.jd.benoggl.model.HandType
+import org.jd.benoggl.models.HandType
 import javax.persistence.*
 
 @Entity

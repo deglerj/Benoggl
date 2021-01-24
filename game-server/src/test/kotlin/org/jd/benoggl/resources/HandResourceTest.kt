@@ -5,7 +5,7 @@ import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import org.jd.benoggl.entities.*
-import org.jd.benoggl.model.*
+import org.jd.benoggl.models.*
 import org.jd.benoggl.resources.dtos.HandDto
 import org.jd.benoggl.truncateAllTables
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -67,7 +67,7 @@ class HandResourceTest {
     }
 
     private fun createGame(gameUid: String): GameEntity {
-        var game = GameEntity()
+        val game = GameEntity()
         game.uid = gameUid
         game.type = GameType.NORMAL
         game.state = GameState.RUNNING
@@ -76,7 +76,7 @@ class HandResourceTest {
     }
 
     private fun createPlayer(playerUid: String, game: GameEntity): PlayerEntity {
-        var player = PlayerEntity()
+        val player = PlayerEntity()
         player.uid = playerUid
         player.name = "Player $playerUid"
         player.game = game
@@ -85,15 +85,15 @@ class HandResourceTest {
     }
 
     private fun createHand(player: PlayerEntity, game: GameEntity, roundNumber: Int) {
-        var bidding = BiddingEntity()
+        val bidding = BiddingEntity()
         bidding.state = BiddingState.RUNNING
         bidding.persist()
 
-        var dabb = HandEntity()
+        val dabb = HandEntity()
         dabb.type = HandType.DABB
         dabb.persist()
 
-        var round = RoundEntity()
+        val round = RoundEntity()
         round.number = roundNumber
         round.state = RoundState.TRICKING
         round.type = RoundType.NORMAL
@@ -102,12 +102,12 @@ class HandResourceTest {
         round.dabb = dabb
         round.persist()
 
-        var hand = HandEntity()
+        val hand = HandEntity()
         hand.type = HandType.NORMAL
         hand.cards = mutableListOf()
         hand.persist()
 
-        var playerHand = PlayerHandEntity()
+        val playerHand = PlayerHandEntity()
         playerHand.player = PlayerEntity.findById(player.id!!)!!
         playerHand.round = round
         playerHand.hand = hand

@@ -6,10 +6,10 @@ import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.smallrye.common.constraint.Assert.assertNotNull
 import org.jd.benoggl.entities.GameEntity
-import org.jd.benoggl.model.BiddingState
-import org.jd.benoggl.model.GameState
-import org.jd.benoggl.model.GameType
-import org.jd.benoggl.model.RoundState
+import org.jd.benoggl.models.BiddingState
+import org.jd.benoggl.models.GameState
+import org.jd.benoggl.models.GameType
+import org.jd.benoggl.models.RoundState
 import org.jd.benoggl.resources.dtos.GameDto
 import org.jd.benoggl.resources.dtos.PlayerDto
 import org.jd.benoggl.truncateAllTables

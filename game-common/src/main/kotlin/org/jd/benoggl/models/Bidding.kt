@@ -1,4 +1,4 @@
-package org.jd.benoggl.model
+package org.jd.benoggl.models
 
 data class Bidding(
     var state: BiddingState,

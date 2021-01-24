@@ -3,7 +3,7 @@ package org.jd.benoggl.resources
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.mappers.toDto
 import org.jd.benoggl.mappers.toModel
-import org.jd.benoggl.model.GameState
+import org.jd.benoggl.models.GameState
 import org.jd.benoggl.resources.dtos.GameDto
 import org.jd.benoggl.resources.dtos.PlayerDto
 import org.jd.benoggl.services.GameService
