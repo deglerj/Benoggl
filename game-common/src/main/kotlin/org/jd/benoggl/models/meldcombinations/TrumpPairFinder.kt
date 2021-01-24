@@ -1,7 +1,6 @@
 package org.jd.benoggl.models.meldcombinations
 
 import org.jd.benoggl.models.*
-import org.jd.benoggl.removeFirst
 
 class TrumpPairFinder : MeldCombinationFinder {
 
@@ -9,14 +8,9 @@ class TrumpPairFinder : MeldCombinationFinder {
         val kings = cards.findRanks(Rank.KING).findSuits(trump)
         val obers = cards.findRanks(Rank.OBER).findSuits(trump).toMutableList()
 
-        val pairedSuits = kings
-            .filter { king ->
-                obers.removeFirst { ober -> ober.suit == king.suit } != null
-            }
-            .map { it.suit }
+        val pairCount = minOf(kings.size, obers.size)
 
-        return pairedSuits
-            .map { suit -> MeldCombination("Trumpf-Paar (${suit.name})", 40) }
+        return List(pairCount) { MeldCombination("Trumpf-Paar (${trump.name})", 40) }
     }
 
 }
