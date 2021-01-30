@@ -17,7 +17,7 @@ class FamilyFinder : MeldCombinationFinder {
             .map { it.suit }
 
         return suitFamilies
-            .map { suit -> MeldCombination("Familie (${suit.name})", 100) }
+            .map { suit -> MeldCombination(MeldCombinationType.FAMILY, 100, suit, blockPair(suit)) }
     }
 
     private fun findAndRemoveFamily(suit: Suit, cards: MutableList<Card>): Boolean =
@@ -28,4 +28,7 @@ class FamilyFinder : MeldCombinationFinder {
         cards.removeFirst { it.suit == suit && it.rank == Rank.OBER } != null &&
         cards.removeFirst { it.suit == suit && it.rank == Rank.UNTER } != null
         // @formatter:on
+
+    private fun blockPair(suit: Suit): Collection<BlockedMeldCombination> =
+        listOf(BlockedMeldCombination(MeldCombinationType.PAIR, suit))
 }

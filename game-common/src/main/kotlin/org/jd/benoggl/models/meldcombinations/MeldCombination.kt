@@ -1,9 +1,10 @@
 package org.jd.benoggl.models.meldcombinations
 
-data class MeldCombination(
-    val name: String,
-    val points: Int,
-    val blockedCombinations: Collection<MeldCombination> = emptyList()
-) {
+import org.jd.benoggl.models.Suit
 
-}
+data class MeldCombination(
+    val type: MeldCombinationType,
+    val points: Int,
+    val suit: Suit? = null,
+    val blockedCombinations: Collection<BlockedMeldCombination> = emptyList()
+)

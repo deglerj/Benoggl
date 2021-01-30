@@ -10,7 +10,7 @@ class TrumpPairFinder : MeldCombinationFinder {
 
         val pairCount = minOf(kings.size, obers.size)
 
-        return List(pairCount) { MeldCombination("Trumpf-Paar (${trump.name})", 40) }
+        return List(pairCount) { MeldCombination(MeldCombinationType.TRUMP_PAIR, 40, trump) }
     }
 
 }

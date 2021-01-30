@@ -18,7 +18,7 @@ class PairFinder : MeldCombinationFinder {
             .map { it.suit }
 
         return pairedSuits
-            .map { suit -> MeldCombination("Paar (${suit.name})", 20) }
+            .map { suit -> MeldCombination(MeldCombinationType.PAIR, 20, suit) }
     }
 
 }

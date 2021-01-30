@@ -16,7 +16,10 @@ class TrumpFamilyFinder : MeldCombinationFinder {
         ).min() ?: 0
 
         return List(familiesCount) {
-            MeldCombination("Trumpf-Familie (${trump.name})", 150)
+            MeldCombination(MeldCombinationType.TRUMP_FAMILY, 150, trump, blockPair(trump))
         }
     }
+
+    private fun blockPair(trump: Suit): Collection<BlockedMeldCombination> =
+        listOf(BlockedMeldCombination(MeldCombinationType.PAIR, trump))
 }
