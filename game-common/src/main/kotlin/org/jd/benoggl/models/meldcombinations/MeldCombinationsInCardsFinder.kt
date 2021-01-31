@@ -10,7 +10,8 @@ class MeldCombinationsInCardsFinder {
         FamilyFinder(),
         TrumpFamilyFinder(),
         PairFinder(),
-        TrumpPairFinder()
+        TrumpPairFinder(),
+        ProcessionFinder()
     )
 
     fun findCombinations(cards: Collection<Card>, trump: Suit): Collection<MeldCombination> {
