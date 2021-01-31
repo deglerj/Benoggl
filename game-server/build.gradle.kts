@@ -29,6 +29,7 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation(project(":game-common"))
     testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("org.hamcrest:hamcrest:[2,)")
     testImplementation("io.rest-assured:rest-assured")
 }
 

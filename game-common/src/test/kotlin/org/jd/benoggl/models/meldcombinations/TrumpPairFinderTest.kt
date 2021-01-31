@@ -1,12 +1,13 @@
 package org.jd.benoggl.models.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class TrumpPairFinderTest {
@@ -17,7 +18,7 @@ internal class TrumpPairFinderTest {
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        assertTrue(combinations.isEmpty())
+        assertThat(combinations, Is(empty()))
     }
 
     @Test
@@ -30,8 +31,8 @@ internal class TrumpPairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(1, combinations.size)
-        assertEquals(40, combinations.first().points)
+        assertThat(combinations, hasSize(1))
+        assertThat(combinations, contains(hasProperty("points", Is(40))))
     }
 
     @Test
@@ -46,7 +47,7 @@ internal class TrumpPairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(2, combinations.size)
+        assertThat(combinations, hasSize(2))
     }
 
     @Test
@@ -60,7 +61,7 @@ internal class TrumpPairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(1, combinations.size)
+        assertThat(combinations, hasSize(1))
     }
 
     @Test
@@ -74,7 +75,7 @@ internal class TrumpPairFinderTest {
             Suit.ACORNS
         )
 
-        assertTrue(combinations.isEmpty())
+        assertThat(combinations, Is(empty()))
     }
 
 }

@@ -1,11 +1,13 @@
 package org.jd.benoggl.services
 
 import io.quarkus.test.junit.QuarkusTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.hasSize
 import org.jd.benoggl.models.HandType
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import javax.enterprise.inject.Default
 import javax.inject.Inject
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 class CardServiceTest {
@@ -18,10 +20,12 @@ class CardServiceTest {
     fun dealCards() {
         val dealt = sut.dealCards(2)
 
-        assertEquals(4, dealt.dabb.cards.size)
-        assertEquals(HandType.DABB, dealt.dabb.type)
-        assertEquals(2, dealt.playerHands.size)
-        assertEquals((40 - 4) / 2, dealt.playerHands[0].cards.size)
-        assertEquals(HandType.NORMAL, dealt.playerHands[0].type)
+        assertThat(dealt.dabb.cards, hasSize(4))
+        assertThat(dealt.dabb.type, Is(HandType.DABB))
+        assertThat(dealt.playerHands, hasSize(2))
+        assertThat(dealt.playerHands[0].cards, hasSize((40 - 4) / 2))
+        assertThat(dealt.playerHands[0].type, Is(HandType.NORMAL))
+        assertThat(dealt.playerHands[1].cards, hasSize((40 - 4) / 2))
+        assertThat(dealt.playerHands[1].type, Is(HandType.NORMAL))
     }
 }

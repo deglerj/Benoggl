@@ -1,22 +1,24 @@
 package org.jd.benoggl.models.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class FamilyFinderTest {
 
     val sut = FamilyFinder()
-
+    
     @Test
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        Assertions.assertTrue(combinations.isEmpty())
+        assertThat(combinations, Is(empty()))
     }
 
     @Test
@@ -26,8 +28,8 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        Assertions.assertEquals(1, combinations.size)
-        Assertions.assertEquals(100, combinations.first().points)
+        assertThat(combinations, hasSize(1))
+        assertThat(combinations, contains(hasProperty("points", Is(100))))
     }
 
     @Test
@@ -40,7 +42,7 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        Assertions.assertEquals(3, combinations.size)
+        assertThat(combinations, hasSize(3))
     }
 
     @Test
@@ -51,7 +53,7 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        Assertions.assertEquals(2, combinations.size)
+        assertThat(combinations, hasSize(2))
     }
 
     @Test
@@ -66,7 +68,7 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        Assertions.assertEquals(1, combinations.size)
+        assertThat(combinations, hasSize(1))
     }
 
     @Test
@@ -80,7 +82,7 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        Assertions.assertTrue(combinations.isEmpty())
+        assertThat(combinations, Is(empty()))
     }
 
     private fun createFamily(suit: Suit): Collection<Card> =

@@ -4,6 +4,8 @@ import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.GameType
@@ -12,13 +14,13 @@ import org.jd.benoggl.resources.dtos.RoundDto
 import org.jd.benoggl.services.GameService
 import org.jd.benoggl.services.RoundService
 import org.jd.benoggl.truncateAllTables
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -59,9 +61,14 @@ class RoundResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<RoundDto>::class.java)
 
-        assertEquals(2, dtos.size)
-        assertEquals(0, dtos[0].number)
-        assertEquals(1, dtos[1].number)
+        assertThat(
+            dtos, Is(
+                arrayContaining(
+                    hasProperty("number", Is(0)),
+                    hasProperty("number", Is(1))
+                )
+            )
+        )
     }
 
     @Test
@@ -80,7 +87,7 @@ class RoundResourceTest {
             .statusCode(200)
             .extract().body().`as`(RoundDto::class.java)
 
-        assertEquals(0, dto.number)
+        assertThat(dto.number, Is(0))
     }
 
     @Test

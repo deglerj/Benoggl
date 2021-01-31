@@ -4,17 +4,18 @@ import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
+import org.hamcrest.MatcherAssert.assertThat
 import org.jd.benoggl.entities.*
 import org.jd.benoggl.models.*
 import org.jd.benoggl.resources.dtos.HandDto
 import org.jd.benoggl.truncateAllTables
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -45,7 +46,7 @@ class HandResourceTest {
             .statusCode(200)
             .extract().body().`as`(HandDto::class.java)
 
-        assertEquals(HandType.NORMAL, dto.type)
+        assertThat(dto.type, Is(HandType.NORMAL))
     }
 
     @Test

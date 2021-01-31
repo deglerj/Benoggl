@@ -4,6 +4,8 @@ import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.BiddingState
@@ -16,7 +18,6 @@ import org.jd.benoggl.services.GameService
 import org.jd.benoggl.services.RoundService
 import org.jd.benoggl.truncateAllTables
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.enterprise.inject.Default
@@ -24,6 +25,7 @@ import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
 import javax.ws.rs.core.MediaType
+import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -65,9 +67,9 @@ class BiddingResourceTest {
             .statusCode(200)
             .extract().body().`as`(BiddingDto::class.java)
 
-        assertEquals(BiddingState.RUNNING, dto.state)
-        assertEquals(0, dto.highestBid)
-        assertNull(dto.highestBidderUid)
+        assertThat(dto.state, Is(BiddingState.RUNNING))
+        assertThat(dto.highestBid, Is(0))
+        assertThat(dto.highestBidderUid, Is(nullValue()))
     }
 
     @Test
@@ -85,11 +87,17 @@ class BiddingResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<PlayerDto>::class.java)
 
-        assertEquals(BiddingState.RUNNING, biddingDto.state)
-        assertEquals(150, biddingDto.highestBid)
-        assertEquals("player1", biddingDto.highestBidderUid)
-        assertEquals("player2", challengerDtos[0].uid)
-        assertEquals("player3", challengerDtos[1].uid)
+        assertThat(biddingDto.state, Is(BiddingState.RUNNING))
+        assertThat(biddingDto.highestBid, Is(150))
+        assertThat(biddingDto.highestBidderUid, Is("player1"))
+        assertThat(
+            challengerDtos, Is(
+                arrayContaining(
+                    hasProperty("uid", Is("player2")),
+                    hasProperty("uid", Is("player3"))
+                )
+            )
+        )
     }
 
     @Test
@@ -130,11 +138,17 @@ class BiddingResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<PlayerDto>::class.java)
 
-        assertEquals(BiddingState.RUNNING, biddingDto.state)
-        assertEquals(160, biddingDto.highestBid)
-        assertEquals("player2", biddingDto.highestBidderUid)
-        assertEquals("player1", challengerDtos[0].uid)
-        assertEquals("player3", challengerDtos[1].uid)
+        assertThat(biddingDto.state, Is(BiddingState.RUNNING))
+        assertThat(biddingDto.highestBid, Is(160))
+        assertThat(biddingDto.highestBidderUid, Is("player2"))
+        assertThat(
+            challengerDtos, Is(
+                arrayContaining(
+                    hasProperty("uid", Is("player1")),
+                    hasProperty("uid", Is("player3"))
+                )
+            )
+        )
     }
 
     @Test
@@ -179,9 +193,10 @@ class BiddingResourceTest {
             .then()
             .statusCode(200)
             .extract().body().`as`(BiddingDto::class.java)
-        assertEquals(BiddingState.FINISHED, biddingDto.state)
-        assertEquals(150, biddingDto.highestBid)
-        assertEquals("player1", biddingDto.highestBidderUid)
+
+        assertThat(biddingDto.state, Is(BiddingState.FINISHED))
+        assertThat(biddingDto.highestBid, Is(150))
+        assertThat(biddingDto.highestBidderUid, Is("player1"))
     }
 
     @Test
@@ -208,14 +223,16 @@ class BiddingResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<BidDto>::class.java)
 
-        assertEquals(10, bidDtos[0].points)
-        assertEquals("player1", bidDtos[0].playerUid)
-        assertEquals(20, bidDtos[1].points)
-        assertEquals("player2", bidDtos[1].playerUid)
-        assertEquals(30, bidDtos[2].points)
-        assertEquals("player1", bidDtos[2].playerUid)
-        assertEquals(40, bidDtos[3].points)
-        assertEquals("player2", bidDtos[3].playerUid)
+        assertThat(
+            bidDtos, Is(
+                arrayContaining(
+                    BidDto(10, "player1"),
+                    BidDto(20, "player2"),
+                    BidDto(30, "player1"),
+                    BidDto(40, "player2")
+                )
+            )
+        )
     }
 
     private fun placeBid(points: Int, playerUid: String) {
