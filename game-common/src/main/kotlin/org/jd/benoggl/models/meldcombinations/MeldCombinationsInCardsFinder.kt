@@ -11,7 +11,13 @@ class MeldCombinationsInCardsFinder {
         TrumpFamilyFinder(),
         PairFinder(),
         TrumpPairFinder(),
-        ProcessionFinder()
+        ProcessionFinder(),
+        FourUntersFinder(),
+        FourObersFinder(),
+        FourKingsFinder(),
+        FourAcesFinder(),
+        BinokelFinder(),
+        DoubleBinokelFinder()
     )
 
     fun findCombinations(cards: Collection<Card>, trump: Suit): Collection<MeldCombination> {
