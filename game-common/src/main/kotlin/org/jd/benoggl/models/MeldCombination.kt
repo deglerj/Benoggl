@@ -1,6 +1,7 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.models
 
-import org.jd.benoggl.models.Suit
+import org.jd.benoggl.rules.meldcombinations.BlockedMeldCombination
+import org.jd.benoggl.rules.meldcombinations.MeldCombinationType
 
 data class MeldCombination(
     val type: MeldCombinationType,

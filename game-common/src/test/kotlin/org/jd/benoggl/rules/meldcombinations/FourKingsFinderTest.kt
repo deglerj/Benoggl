@@ -1,4 +1,4 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
-internal class FourObersFinderTest {
+internal class FourKingsFinderTest {
 
-    val sut = FourObersFinder()
+    val sut = FourKingsFinder()
 
     @Test
     fun noCards() {
@@ -26,31 +26,31 @@ internal class FourObersFinderTest {
     fun oneCombination() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.ACORNS, Rank.OBER),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.HEARTS, Rank.OBER),
-                Card(Suit.LEAVES, Rank.OBER)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.HEARTS, Rank.KING),
+                Card(Suit.LEAVES, Rank.KING)
             ),
             Suit.ACORNS
         )
 
         assertThat(combinations, hasSize(1))
-        assertThat(combinations.first().type, Is((MeldCombinationType.FOUR_OBERS)))
-        assertThat(combinations.first().points, Is((60)))
+        assertThat(combinations.first().type, Is((MeldCombinationType.FOUR_KINGS)))
+        assertThat(combinations.first().points, Is((80)))
     }
 
     @Test
     fun twoCombinations() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.ACORNS, Rank.OBER),
-                Card(Suit.ACORNS, Rank.OBER),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.HEARTS, Rank.OBER),
-                Card(Suit.HEARTS, Rank.OBER),
-                Card(Suit.LEAVES, Rank.OBER),
-                Card(Suit.LEAVES, Rank.OBER)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.HEARTS, Rank.KING),
+                Card(Suit.HEARTS, Rank.KING),
+                Card(Suit.LEAVES, Rank.KING),
+                Card(Suit.LEAVES, Rank.KING)
             ),
             Suit.ACORNS
         )
@@ -62,9 +62,9 @@ internal class FourObersFinderTest {
     fun noCombination() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.ACORNS, Rank.OBER),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.HEARTS, Rank.OBER)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.HEARTS, Rank.KING)
             ),
             Suit.ACORNS
         )

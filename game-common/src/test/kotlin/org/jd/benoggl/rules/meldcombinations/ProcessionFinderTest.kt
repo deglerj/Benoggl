@@ -1,4 +1,4 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
 import org.hamcrest.MatcherAssert.assertThat

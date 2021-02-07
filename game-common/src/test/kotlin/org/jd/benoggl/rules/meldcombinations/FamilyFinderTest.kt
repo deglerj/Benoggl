@@ -1,4 +1,4 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
-internal class TrumpFamilyFinderTest {
+internal class FamilyFinderTest {
 
-    val sut = TrumpFamilyFinder()
+    val sut = FamilyFinder()
 
     @Test
     fun noCards() {
@@ -24,20 +24,33 @@ internal class TrumpFamilyFinderTest {
     @Test
     fun oneFamily() {
         val combinations = sut.findCombinations(
-            createFamily(Suit.ACORNS),
+            createFamily(Suit.BELLS),
             Suit.ACORNS
         )
 
         assertThat(combinations, hasSize(1))
-        assertThat(combinations, contains(hasProperty("points", Is(150))))
+        assertThat(combinations, contains(hasProperty("points", Is(100))))
     }
 
     @Test
-    fun twoFamilies() {
+    fun oneFamilyOfEach() {
+        val combinations = sut.findCombinations(
+            createFamily(Suit.ACORNS)
+                    + createFamily(Suit.BELLS)
+                    + createFamily(Suit.HEARTS)
+                    + createFamily(Suit.LEAVES),
+            Suit.ACORNS
+        )
+
+        assertThat(combinations, hasSize(3))
+    }
+
+    @Test
+    fun twoFamiliesOfSameSuit() {
         val combinations = sut.findCombinations(
             createFamily(Suit.BELLS)
                     + createFamily(Suit.BELLS),
-            Suit.BELLS
+            Suit.ACORNS
         )
 
         assertThat(combinations, hasSize(2))
@@ -46,11 +59,11 @@ internal class TrumpFamilyFinderTest {
     @Test
     fun oneFamilyAndOneIncompleteFamilyOfSameSuit() {
         val combinations = sut.findCombinations(
-            createFamily(Suit.ACORNS)
+            createFamily(Suit.BELLS)
                     + listOf(
-                Card(Suit.ACORNS, Rank.ACE),
-                Card(Suit.ACORNS, Rank.TEN),
-                Card(Suit.ACORNS, Rank.KING)
+                Card(Suit.BELLS, Rank.ACE),
+                Card(Suit.BELLS, Rank.TEN),
+                Card(Suit.BELLS, Rank.KING)
             ),
             Suit.ACORNS
         )
@@ -62,9 +75,9 @@ internal class TrumpFamilyFinderTest {
     fun noPairs() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.ACORNS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.ACORNS, Rank.ACE)
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.ACORNS, Rank.OBER),
+                Card(Suit.BELLS, Rank.ACE)
             ),
             Suit.ACORNS
         )

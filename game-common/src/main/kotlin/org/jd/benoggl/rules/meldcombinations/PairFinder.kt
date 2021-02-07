@@ -1,4 +1,4 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import org.jd.benoggl.models.*
 import org.jd.benoggl.removeFirst

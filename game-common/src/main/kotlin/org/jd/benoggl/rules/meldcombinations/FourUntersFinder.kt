@@ -1,9 +1,6 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
-import org.jd.benoggl.models.Card
-import org.jd.benoggl.models.Rank
-import org.jd.benoggl.models.Suit
-import org.jd.benoggl.models.countFourOfAKind
+import org.jd.benoggl.models.*
 
 class FourUntersFinder : MeldCombinationFinder {
 

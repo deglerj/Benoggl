@@ -1,9 +1,6 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
-import org.jd.benoggl.models.Card
-import org.jd.benoggl.models.Rank
-import org.jd.benoggl.models.Suit
-import org.jd.benoggl.models.withoutSuits
+import org.jd.benoggl.models.*
 import org.jd.benoggl.removeFirst
 
 class FamilyFinder : MeldCombinationFinder {

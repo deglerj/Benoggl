@@ -3,11 +3,11 @@ package org.jd.benoggl.resources
 import org.jd.benoggl.entities.*
 import org.jd.benoggl.mappers.toDto
 import org.jd.benoggl.mappers.toModel
+import org.jd.benoggl.models.MeldCombination
 import org.jd.benoggl.models.RoundState
-import org.jd.benoggl.models.meldcombinations.MeldCombination
-import org.jd.benoggl.models.meldcombinations.MeldCombinationsInCardsFinder
 import org.jd.benoggl.resources.dtos.CardDto
 import org.jd.benoggl.resources.dtos.MeldDto
+import org.jd.benoggl.rules.meldcombinations.MeldCombinationsInCardsFinder
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.transaction.Transactional

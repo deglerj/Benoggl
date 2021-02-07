@@ -1,6 +1,7 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import org.jd.benoggl.models.Card
+import org.jd.benoggl.models.MeldCombination
 import org.jd.benoggl.models.Suit
 import org.jd.benoggl.removeFirst
 

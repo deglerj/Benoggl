@@ -1,10 +1,8 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.empty
-import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.*
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
@@ -12,9 +10,9 @@ import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
-internal class PairFinderTest {
+internal class TrumpPairFinderTest {
 
-    val sut = PairFinder()
+    val sut = TrumpPairFinder()
 
     @Test
     fun noCards() {
@@ -27,43 +25,24 @@ internal class PairFinderTest {
     fun onePair() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.BELLS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.ACORNS, Rank.OBER)
             ),
             Suit.ACORNS
         )
 
         assertThat(combinations, hasSize(1))
-        assertThat(combinations, Matchers.contains(Matchers.hasProperty("points", Is(20))))
+        assertThat(combinations, contains(hasProperty("points", Is(40))))
     }
 
     @Test
-    fun onePairOfEach() {
+    fun twoPairs() {
         val combinations = sut.findCombinations(
             listOf(
                 Card(Suit.ACORNS, Rank.KING),
                 Card(Suit.ACORNS, Rank.OBER),
-                Card(Suit.BELLS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.HEARTS, Rank.KING),
-                Card(Suit.HEARTS, Rank.OBER),
-                Card(Suit.LEAVES, Rank.KING),
-                Card(Suit.LEAVES, Rank.OBER)
-            ),
-            Suit.ACORNS
-        )
-
-        assertThat(combinations, hasSize(3))
-    }
-
-    @Test
-    fun twoPairsOfSameSuit() {
-        val combinations = sut.findCombinations(
-            listOf(
-                Card(Suit.BELLS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.BELLS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.ACORNS, Rank.OBER)
             ),
             Suit.ACORNS
         )
@@ -75,9 +54,9 @@ internal class PairFinderTest {
     fun onePairAndOneIncompletePairOfSameSuit() {
         val combinations = sut.findCombinations(
             listOf(
-                Card(Suit.BELLS, Rank.KING),
-                Card(Suit.BELLS, Rank.OBER),
-                Card(Suit.BELLS, Rank.KING)
+                Card(Suit.ACORNS, Rank.KING),
+                Card(Suit.ACORNS, Rank.OBER),
+                Card(Suit.ACORNS, Rank.KING)
             ),
             Suit.ACORNS
         )

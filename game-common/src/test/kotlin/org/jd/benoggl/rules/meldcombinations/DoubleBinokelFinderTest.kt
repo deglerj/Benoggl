@@ -1,4 +1,4 @@
-package org.jd.benoggl.models.meldcombinations
+package org.jd.benoggl.rules.meldcombinations
 
 import io.quarkus.test.junit.QuarkusTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
-internal class BinokelFinderTest {
+internal class DoubleBinokelFinderTest {
 
-    val sut = BinokelFinder()
+    val sut = DoubleBinokelFinder()
 
     @Test
     fun noCards() {
@@ -27,21 +27,6 @@ internal class BinokelFinderTest {
         val combinations = sut.findCombinations(
             listOf(
                 Card(Suit.LEAVES, Rank.OBER),
-                Card(Suit.BELLS, Rank.UNTER)
-            ),
-            Suit.ACORNS
-        )
-
-        assertThat(combinations, hasSize(1))
-        assertThat(combinations.first().type, Is((MeldCombinationType.BINOKEL)))
-        assertThat(combinations.first().points, Is((40)))
-    }
-
-    @Test
-    fun twoCombinations() {
-        val combinations = sut.findCombinations(
-            listOf(
-                Card(Suit.LEAVES, Rank.OBER),
                 Card(Suit.LEAVES, Rank.OBER),
                 Card(Suit.BELLS, Rank.UNTER),
                 Card(Suit.BELLS, Rank.UNTER)
@@ -49,7 +34,9 @@ internal class BinokelFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, Is(empty()))
+        assertThat(combinations, hasSize(1))
+        assertThat(combinations.first().type, Is((MeldCombinationType.DOUBLE_BINOKEL)))
+        assertThat(combinations.first().points, Is((300)))
     }
 
     @Test
@@ -57,7 +44,8 @@ internal class BinokelFinderTest {
         val combinations = sut.findCombinations(
             listOf(
                 Card(Suit.LEAVES, Rank.OBER),
-                Card(Suit.LEAVES, Rank.UNTER)
+                Card(Suit.LEAVES, Rank.OBER),
+                Card(Suit.BELLS, Rank.UNTER)
             ),
             Suit.ACORNS
         )
