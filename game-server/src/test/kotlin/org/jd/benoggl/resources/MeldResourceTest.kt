@@ -62,8 +62,10 @@ class MeldResourceTest {
         roundService.startNewRound(GameEntity.findByUid("game1")!!.toModel())
         val round = RoundEntity.findByNumber(0, "game1")!!
         round.state = RoundState.MELDING
-        round.trump = Suit.BELLS
         round.persist()
+
+        round.bidding.highestBidder = PlayerEntity.findByUid("player1", "game1")
+        round.bidding.persist()
 
         giveCardsToPlayer("player1", binokelAndLeavesPair)
         giveCardsToPlayer("player2", binokelAndLeavesPair)
@@ -97,7 +99,7 @@ class MeldResourceTest {
 
     @Test
     fun addValidMelds() {
-        addMeld(40, "player1", binokelAndLeavesPair)
+        addMeld(40, "player1", binokelAndLeavesPair, Suit.BELLS)
             .then()
             .statusCode(204)
         addMeld(40, "player2", binokelAndLeavesPair)
@@ -118,25 +120,25 @@ class MeldResourceTest {
 
     @Test
     fun addInvalidSecondMeldForPlayer() {
-        addMeld(40, "player1", binokelAndLeavesPair)
+        addMeld(40, "player1", binokelAndLeavesPair, Suit.BELLS)
             .then()
             .statusCode(204)
 
-        addMeld(40, "player1", binokelAndLeavesPair)
+        addMeld(40, "player1", binokelAndLeavesPair, Suit.BELLS)
             .then()
             .statusCode(400)
     }
 
     @Test
     fun addInvalidTooHighMeld() {
-        addMeld(500, "player1", binokelAndLeavesPair)
+        addMeld(500, "player1", binokelAndLeavesPair, Suit.BELLS)
             .then()
             .statusCode(400)
     }
 
     @Test
     fun addValidTooLowMeld() {
-        addMeld(20, "player1", binokelAndLeavesPair)
+        addMeld(20, "player1", binokelAndLeavesPair, Suit.BELLS)
             .then()
             .statusCode(204)
     }
@@ -151,14 +153,57 @@ class MeldResourceTest {
                 Card(Suit.LEAVES, Rank.UNTER),
                 Card(Suit.HEARTS, Rank.OBER),
                 Card(Suit.HEARTS, Rank.UNTER)
-            )
+            ),
+            Suit.BELLS
         )
             .then()
             .statusCode(400)
     }
 
-    private fun addMeld(points: Int, playerUid: String, cards: Collection<Card>): Response {
-        val meldDto = MeldDto(points = points, playerUid = playerUid, cards = cards.map(Card::toDto))
+    @Test
+    fun addInvalidMeldBeforeTrumpChosen() {
+        addMeld(40, "player2", binokelAndLeavesPair)
+            .then()
+            .statusCode(400)
+    }
+
+    @Test
+    fun addInvalidFirstMeldWithoutTrump() {
+        addMeld(40, "player1", binokelAndLeavesPair)
+            .then()
+            .statusCode(400)
+    }
+
+    @Test
+    fun addInvalidMeldWithDifferentTrump() {
+        addMeld(40, "player1", binokelAndLeavesPair, Suit.BELLS)
+            .then()
+            .statusCode(204)
+
+        addMeld(40, "player2", binokelAndLeavesPair, Suit.HEARTS)
+            .then()
+            .statusCode(400)
+    }
+
+    @Test
+    fun addValidMeldWithCurrentTrump() {
+        addMeld(40, "player1", binokelAndLeavesPair, Suit.BELLS)
+            .then()
+            .statusCode(204)
+
+        addMeld(40, "player2", binokelAndLeavesPair, Suit.BELLS)
+            .then()
+            .statusCode(204)
+    }
+
+
+    private fun addMeld(points: Int, playerUid: String, cards: Collection<Card>, trump: Suit? = null): Response {
+        val meldDto = MeldDto(
+            points = points,
+            playerUid = playerUid,
+            cards = cards.map(Card::toDto),
+            trump = trump
+        )
         return given()
             .contentType(MediaType.APPLICATION_JSON)
             .body(meldDto)

@@ -1,5 +1,6 @@
 package org.jd.benoggl.resources.dtos
 
+import org.jd.benoggl.models.Suit
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -15,6 +16,8 @@ data class MeldDto(
 
     @get:NotNull
     @get:Min(0)
-    val points: Int?
+    val points: Int?,
+
+    val trump: Suit?
 ) {
 }
