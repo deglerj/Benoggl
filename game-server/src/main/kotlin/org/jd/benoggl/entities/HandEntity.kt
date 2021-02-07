@@ -10,6 +10,14 @@ import javax.persistence.*
 open class HandEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<HandEntity, Long> {
+
+        fun findForPlayer(playerUid: String, roundNumber: Int, gameUid: String) =
+            HandEntity.find(
+                "playerHand.player.uid = ? 1 and playerHand.round.number = ?2 and playerHand.round.game.uid = ?3",
+                playerUid,
+                roundNumber,
+                gameUid
+            ).singleResult()
     }
 
     @Column(nullable = false)

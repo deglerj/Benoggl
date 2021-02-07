@@ -10,6 +10,17 @@ import javax.validation.constraints.Min
 open class MeldEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<MeldEntity, Long> {
+
+        fun findForRound(roundNumber: Int, gameUid: String) =
+            MeldEntity.find("round.number = ?1 and round.game.uid = ?2", roundNumber, gameUid).list()
+
+        fun findForPlayer(playerUid: String, roundNumber: Int, gameUid: String) =
+            MeldEntity.find(
+                "player.uid = ? 1 and round.number = ?2 and round.game.uid = ?3",
+                playerUid,
+                roundNumber,
+                gameUid
+            ).firstResult()
     }
 
     @Column(nullable = false)
