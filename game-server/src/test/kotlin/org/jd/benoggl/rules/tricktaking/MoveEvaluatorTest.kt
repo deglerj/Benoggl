@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
-class TrickEvaluatorTest {
+class MoveEvaluatorTest {
 
     private val heartUnter = Card(Suit.HEARTS, Rank.UNTER)
     private val heartOber = Card(Suit.HEARTS, Rank.OBER)
@@ -20,7 +20,7 @@ class TrickEvaluatorTest {
     private val leavesKing = Card(Suit.LEAVES, Rank.KING)
     private val bellsKing = Card(Suit.BELLS, Rank.KING)
 
-    private val sut = TrickEvaluator()
+    private val sut = MoveEvaluator()
 
     @Test
     fun higherRankBeatsLowerRank() {
@@ -32,7 +32,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.LEAVES)
 
-        assertThat(result, Is(TrickEvaluationResult.WINS))
+        assertThat(result, Is(MoveEvaluationResult.WINS))
     }
 
     @Test
@@ -45,7 +45,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.WINS))
+        assertThat(result, Is(MoveEvaluationResult.WINS))
     }
 
     @Test
@@ -58,7 +58,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.LEAVES)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -71,7 +71,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -84,7 +84,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.WINS))
+        assertThat(result, Is(MoveEvaluationResult.WINS))
     }
 
     @Test
@@ -97,7 +97,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -110,7 +110,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -123,7 +123,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.LEAVES)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -136,7 +136,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.SUIT_NOT_FOLLOWED))
+        assertThat(result, Is(MoveEvaluationResult.SUIT_NOT_FOLLOWED))
     }
 
     @Test
@@ -149,7 +149,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.SUIT_NOT_FOLLOWED))
+        assertThat(result, Is(MoveEvaluationResult.SUIT_NOT_FOLLOWED))
     }
 
     @Test
@@ -162,7 +162,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.TRUMP_NOT_PLAYED))
+        assertThat(result, Is(MoveEvaluationResult.TRUMP_NOT_PLAYED))
     }
 
     @Test
@@ -175,7 +175,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     @Test
@@ -188,7 +188,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.WINNING_CARD_NOT_PLAYED))
+        assertThat(result, Is(MoveEvaluationResult.WINNING_CARD_NOT_PLAYED))
     }
 
     @Test
@@ -201,7 +201,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.WINNING_CARD_NOT_PLAYED))
+        assertThat(result, Is(MoveEvaluationResult.WINNING_CARD_NOT_PLAYED))
     }
 
     @Test
@@ -214,7 +214,7 @@ class TrickEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
 
-        assertThat(result, Is(TrickEvaluationResult.LOOSES))
+        assertThat(result, Is(MoveEvaluationResult.LOOSES))
     }
 
     private fun handOf(vararg cards: Card) = Hand(cards.toMutableList())

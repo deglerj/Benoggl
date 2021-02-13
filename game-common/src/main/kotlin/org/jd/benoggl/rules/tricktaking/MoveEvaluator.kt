@@ -5,9 +5,9 @@ import org.jd.benoggl.models.Hand
 import org.jd.benoggl.models.Suit
 import org.jd.benoggl.models.findSuits
 
-class TrickEvaluator {
+class MoveEvaluator {
 
-    fun evaluate(playedCards: List<Card>, playerHand: Hand, cardToPlay: Card, trump: Suit): TrickEvaluationResult {
+    fun evaluate(playedCards: List<Card>, playerHand: Hand, cardToPlay: Card, trump: Suit): MoveEvaluationResult {
         // Follow suit
         val firstPlayedCard = playedCards.firstOrNull()
         val playerHasSuit =
@@ -15,26 +15,26 @@ class TrickEvaluator {
         val cardToPlayMatchesSuit =
             if (firstPlayedCard == null) true else firstPlayedCard.suit == cardToPlay.suit
         if (playerHasSuit && !cardToPlayMatchesSuit) {
-            return TrickEvaluationResult.SUIT_NOT_FOLLOWED
+            return MoveEvaluationResult.SUIT_NOT_FOLLOWED
         }
 
         // Must play trump if suit can't be followed
         val playerHasTrump = playerHand.cards.findSuits(trump).any()
         val cardToPlayIsTrump = cardToPlay.suit == trump
         if (!playerHasSuit && playerHasTrump && !cardToPlayIsTrump) {
-            return TrickEvaluationResult.TRUMP_NOT_PLAYED
+            return MoveEvaluationResult.TRUMP_NOT_PLAYED
         }
 
-        val cardToBeat = findWinningCard(playedCards, trump) ?: return TrickEvaluationResult.WINS
+        val cardToBeat = findWinningCard(playedCards, trump) ?: return MoveEvaluationResult.WINS
 
         // Must play winning card
         val playerHasWinningCard = hasCardBeatingOtherCard(playerHand.cards, cardToBeat, trump)
         val cardToPlayIsWinning = isCardBeatingOtherCard(cardToPlay, cardToBeat, trump)
         if (playerHasWinningCard && !cardToPlayIsWinning) {
-            return TrickEvaluationResult.WINNING_CARD_NOT_PLAYED
+            return MoveEvaluationResult.WINNING_CARD_NOT_PLAYED
         }
 
-        return if (cardToPlayIsWinning) TrickEvaluationResult.WINS else TrickEvaluationResult.LOOSES
+        return if (cardToPlayIsWinning) MoveEvaluationResult.WINS else MoveEvaluationResult.LOOSES
     }
 
     private fun findWinningCard(playedCards: List<Card>, trump: Suit) =
