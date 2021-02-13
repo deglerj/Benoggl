@@ -7,10 +7,21 @@ import javax.persistence.*
 import javax.validation.constraints.Min
 
 @Entity
-@Table(name = "TRICK")
+@Table(name = "TRICK", uniqueConstraints = [UniqueConstraint(columnNames = ["NUMBER", "ROUND_ID"])])
 open class TrickEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<TrickEntity, Long> {
+
+        fun findForRound(roundNumber: Int, gameUid: String) =
+            TrickEntity.find("round.number = ?1 and round.game.uid = ?2", roundNumber, gameUid).list()
+
+        fun findByNumber(roundNumber: Int, gameUid: String, trickNumber: Int) =
+            TrickEntity.find(
+                "round.number = ?1 and round.game.uid = ?2 and number = ?3",
+                roundNumber,
+                gameUid,
+                trickNumber
+            ).firstResult()
     }
 
     @Column(nullable = false)
