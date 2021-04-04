@@ -25,7 +25,7 @@ class TrickResource {
         @PathParam("gameUid") gameUid: String,
         @PathParam("roundNumber") roundNumber: Int,
         @PathParam("trickNumber") trickNumber: Int
-    ) = TrickEntity.findByNumber(roundNumber, gameUid, trickNumber)
+    ) = TrickEntity.findByNumber(trickNumber, roundNumber, gameUid)
         ?.toModel()
         ?.toDto()
         ?: throw NotFoundException("Could not find trick $trickNumber for round $roundNumber of game $gameUid")

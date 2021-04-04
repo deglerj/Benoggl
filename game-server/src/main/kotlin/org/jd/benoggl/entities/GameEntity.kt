@@ -28,6 +28,7 @@ open class GameEntity : PanacheEntity() {
     lateinit var type: GameType
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
+    @OrderBy("number ASC")
     lateinit var rounds: MutableList<RoundEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")

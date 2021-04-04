@@ -15,7 +15,7 @@ open class TrickEntity : PanacheEntity() {
         fun findForRound(roundNumber: Int, gameUid: String) =
             TrickEntity.find("round.number = ?1 and round.game.uid = ?2", roundNumber, gameUid).list()
 
-        fun findByNumber(roundNumber: Int, gameUid: String, trickNumber: Int) =
+        fun findByNumber(trickNumber: Int, roundNumber: Int, gameUid: String) =
             TrickEntity.find(
                 "round.number = ?1 and round.game.uid = ?2 and number = ?3",
                 roundNumber,
@@ -32,6 +32,7 @@ open class TrickEntity : PanacheEntity() {
     lateinit var state: TrickState
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "trick")
+    @OrderBy("number ASC")
     lateinit var moves: MutableList<MoveEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "pendingInTrick")

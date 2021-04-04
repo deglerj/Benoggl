@@ -53,6 +53,7 @@ open class RoundEntity : PanacheEntity() {
     lateinit var dabb: HandEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
+    @OrderBy("number ASC")
     var tricks: MutableCollection<TrickEntity> = mutableListOf()
 
 }

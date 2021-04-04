@@ -1,6 +1,7 @@
 package org.jd.benoggl.services
 
 import org.jd.benoggl.entities.*
+import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.*
 import javax.enterprise.context.ApplicationScoped
 import javax.enterprise.inject.Default
@@ -14,6 +15,10 @@ class RoundService {
     @Inject
     @field: Default
     internal lateinit var cardService: CardService
+
+    @Inject
+    @field: Default
+    internal lateinit var gameService: GameService
 
     fun startNewRound(game: Game) {
         check(game.state == GameState.RUNNING)
@@ -82,4 +87,55 @@ class RoundService {
         return bidding
     }
 
+    fun finishRound(round: Round, game: Game) {
+        val roundEntity = findRoundEntity(round, game)
+
+        if (hasHighestBidderWon(roundEntity)) {
+            roundEntity.state = RoundState.WON
+        } else {
+            roundEntity.state = RoundState.LOST
+        }
+        roundEntity.persist()
+
+        if (isLastRoundInGame(roundEntity)) {
+            gameService.finishGame(game)
+        } else {
+            startNewRound(game)
+        }
+    }
+
+    private fun findRoundEntity(round: Round, game: Game) =
+        RoundEntity.findByNumber(round.number, game.uid)
+            ?: throw IllegalStateException("Round ${round.number} of game ${game.uid} not present in database")
+
+    private fun hasHighestBidderWon(roundEntity: RoundEntity): Boolean {
+        val highestBidder = getHighestBidder(roundEntity)
+        val highestBid = getHighestBid(roundEntity)
+
+        val pointsForHighestBidder = calculatePointsForPlayer(highestBidder, roundEntity)
+        return pointsForHighestBidder >= highestBid
+    }
+
+    private fun getHighestBidder(roundEntity: RoundEntity) = roundEntity.bidding.highestBidder
+        ?: throw IllegalStateException("Round ${roundEntity.number} of game ${roundEntity.game.uid} has no highest bidder")
+
+    private fun getHighestBid(roundEntity: RoundEntity) = roundEntity.bidding.highestBid
+        ?: throw IllegalStateException("Round ${roundEntity.number} of game ${roundEntity.game.uid} has no highest bid")
+
+    private fun calculatePointsForPlayer(player: PlayerEntity, round: RoundEntity) = round.tricks
+        .filter { trick -> trick.winner == player }
+        .flatMap(TrickEntity::moves)
+        .map(MoveEntity::card)
+        .map(CardEntity::rank)
+        .sumBy(Rank::points)
+
+    fun calculatePointsForPlayer(player: Player, round: Round, game: Game) =
+        calculatePointsForPlayer(findPlayerEntity(player, game), findRoundEntity(round, game))
+
+    private fun findPlayerEntity(player: Player, game: Game) =
+        PlayerEntity.findByUid(player.uid, game.uid)
+            ?: throw IllegalStateException("Player ${player.uid} of game ${game.uid} not present in database")
+
+    private fun isLastRoundInGame(roundEntity: RoundEntity) =
+        gameService.determineWinner(roundEntity.game.toModel()) != null
 }

@@ -5,8 +5,8 @@ import org.jd.benoggl.models.Move
 import org.jd.benoggl.models.Player
 import org.jd.benoggl.resources.dtos.MoveDto
 
-fun MoveDto.toModel(playerResolver: (String?) -> Player?) = Move(
-    playerResolver(this.playerUid)!!,
+fun MoveDto.toModel(playerResolver: (String) -> Player) = Move(
+    playerResolver(this.playerUid!!),
     this.card!!.toModel()
 )
 
