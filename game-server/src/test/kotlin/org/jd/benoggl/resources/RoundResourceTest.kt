@@ -1,11 +1,11 @@
 package org.jd.benoggl.resources
 
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.GameEntity
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.GameType
@@ -20,7 +20,6 @@ import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -61,14 +60,9 @@ class RoundResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<RoundDto>::class.java)
 
-        assertThat(
-            dtos, Is(
-                arrayContaining(
-                    hasProperty("number", Is(0)),
-                    hasProperty("number", Is(1))
-                )
-            )
-        )
+        dtos
+            .map(RoundDto::number)
+            .shouldContainExactly(0, 1)
     }
 
     @Test
@@ -87,7 +81,7 @@ class RoundResourceTest {
             .statusCode(200)
             .extract().body().`as`(RoundDto::class.java)
 
-        assertThat(dto.number, Is(0))
+        dto.number shouldBe 0
     }
 
     @Test

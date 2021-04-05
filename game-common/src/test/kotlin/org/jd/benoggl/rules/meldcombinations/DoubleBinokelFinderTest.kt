@@ -1,14 +1,13 @@
 package org.jd.benoggl.rules.meldcombinations
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.junit.QuarkusTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.empty
-import org.hamcrest.Matchers.hasSize
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
 import org.junit.jupiter.api.Test
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class DoubleBinokelFinderTest {
@@ -19,7 +18,7 @@ internal class DoubleBinokelFinderTest {
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     @Test
@@ -34,9 +33,9 @@ internal class DoubleBinokelFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, hasSize(1))
-        assertThat(combinations.first().type, Is((MeldCombinationType.DOUBLE_BINOKEL)))
-        assertThat(combinations.first().points, Is((300)))
+        combinations shouldHaveSize 1
+        combinations.first().type shouldBe MeldCombinationType.DOUBLE_BINOKEL
+        combinations.first().points shouldBe 300
     }
 
     @Test
@@ -50,7 +49,7 @@ internal class DoubleBinokelFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
 }

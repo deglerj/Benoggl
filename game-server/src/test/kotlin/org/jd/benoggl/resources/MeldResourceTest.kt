@@ -1,12 +1,12 @@
 package org.jd.benoggl.resources
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldHaveSize
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
 import io.restassured.response.Response
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.*
 import org.jd.benoggl.mappers.toDto
 import org.jd.benoggl.mappers.toModel
@@ -22,7 +22,6 @@ import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
 import javax.ws.rs.core.MediaType
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -94,7 +93,7 @@ class MeldResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<MeldDto>::class.java)
 
-        assertThat(dtos, Is(emptyArray()))
+        dtos.shouldBeEmpty()
     }
 
     @Test
@@ -115,7 +114,7 @@ class MeldResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<MeldDto>::class.java)
 
-        assertThat(dtos, Is(arrayWithSize(3)))
+        dtos shouldHaveSize 3
     }
 
     @Test

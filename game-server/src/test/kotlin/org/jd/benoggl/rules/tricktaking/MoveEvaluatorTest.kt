@@ -1,13 +1,12 @@
 package org.jd.benoggl.rules.tricktaking
 
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.junit.QuarkusTest
-import org.hamcrest.MatcherAssert.assertThat
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Hand
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
 import org.junit.jupiter.api.Test
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 class MoveEvaluatorTest {
@@ -32,7 +31,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.LEAVES)
 
-        assertThat(result, Is(MoveEvaluationResult.WINS))
+        result shouldBe MoveEvaluationResult.WINS
     }
 
     @Test
@@ -45,7 +44,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.WINS))
+        result shouldBe MoveEvaluationResult.WINS
     }
 
     @Test
@@ -58,7 +57,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.LEAVES)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -71,7 +70,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -84,7 +83,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartUnter, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.WINS))
+        result shouldBe MoveEvaluationResult.WINS
     }
 
     @Test
@@ -97,7 +96,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -110,7 +109,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -123,7 +122,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.LEAVES)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -136,7 +135,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.SUIT_NOT_FOLLOWED))
+        result shouldBe MoveEvaluationResult.SUIT_NOT_FOLLOWED
     }
 
     @Test
@@ -149,7 +148,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, heartKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.SUIT_NOT_FOLLOWED))
+        result shouldBe MoveEvaluationResult.SUIT_NOT_FOLLOWED
     }
 
     @Test
@@ -162,7 +161,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.TRUMP_NOT_PLAYED))
+        result shouldBe MoveEvaluationResult.TRUMP_NOT_PLAYED
     }
 
     @Test
@@ -175,7 +174,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, bellsKing, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     @Test
@@ -188,7 +187,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.WINNING_CARD_NOT_PLAYED))
+        result shouldBe MoveEvaluationResult.WINNING_CARD_NOT_PLAYED
     }
 
     @Test
@@ -201,7 +200,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesOber, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.WINNING_CARD_NOT_PLAYED))
+        result shouldBe MoveEvaluationResult.WINNING_CARD_NOT_PLAYED
     }
 
     @Test
@@ -214,7 +213,7 @@ class MoveEvaluatorTest {
 
         val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
 
-        assertThat(result, Is(MoveEvaluationResult.LOOSES))
+        result shouldBe MoveEvaluationResult.LOOSES
     }
 
     private fun handOf(vararg cards: Card) = Hand(cards.toMutableList())

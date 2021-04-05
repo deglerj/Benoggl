@@ -1,15 +1,13 @@
 package org.jd.benoggl.rules.meldcombinations
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.quarkus.test.junit.QuarkusTest
-import org.hamcrest.Matcher
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.MeldCombination
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
 import org.junit.jupiter.api.Test
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class MeldCombinationsInCardsFinderTest {
@@ -20,7 +18,7 @@ internal class MeldCombinationsInCardsFinderTest {
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     @Test
@@ -32,7 +30,7 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     @Test
@@ -44,11 +42,9 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(
-            combinations, containsInAnyOrder(
-                hasPoints(20)
-            )
-        )
+        combinations
+            .map(MeldCombination::points)
+            .shouldContainExactlyInAnyOrder(20)
     }
 
     @Test
@@ -63,12 +59,9 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(
-            combinations, containsInAnyOrder(
-                hasPoints(40),
-                hasPoints(20)
-            )
-        )
+        combinations
+            .map(MeldCombination::points)
+            .shouldContainExactlyInAnyOrder(40, 20)
     }
 
     @Test
@@ -83,12 +76,9 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(
-            combinations, containsInAnyOrder(
-                hasPoints(20),
-                hasPoints(20)
-            )
-        )
+        combinations
+            .map(MeldCombination::points)
+            .shouldContainExactlyInAnyOrder(20, 20)
     }
 
     @Test
@@ -103,11 +93,9 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(
-            combinations, containsInAnyOrder(
-                hasPoints(100)
-            )
-        )
+        combinations
+            .map(MeldCombination::points)
+            .shouldContainExactlyInAnyOrder(100)
     }
 
     @Test
@@ -124,17 +112,10 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertThat(
-            combinations, containsInAnyOrder(
-                hasPoints(100),
-                hasPoints(40)
-            )
-        )
+        combinations
+            .map(MeldCombination::points)
+            .shouldContainExactlyInAnyOrder(100, 40)
     }
-
-    private fun hasPoints(points: Int): Matcher<MeldCombination> =
-        hasProperty("points", Is(points))
-
 
 }
 

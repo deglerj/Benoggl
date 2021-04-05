@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.3.72"
-    kotlin("plugin.allopen") version "1.3.72"
+    kotlin("jvm") version "1.4.0"
+    kotlin("plugin.allopen") version "1.4.0"
     id("io.quarkus")
 }
 
@@ -15,22 +15,22 @@ val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    implementation("io.quarkus:quarkus-container-image-docker")
-    implementation("io.quarkus:quarkus-rest-client")
-    implementation("io.quarkus:quarkus-resteasy-jackson")
-    implementation("io.quarkus:quarkus-kotlin")
-    implementation("io.quarkus:quarkus-resteasy")
-    implementation("io.quarkus:quarkus-jdbc-h2")
-    implementation("io.quarkus:quarkus-test-h2")
-    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
-    implementation(("io.quarkus:quarkus-hibernate-validator"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("io.quarkus:quarkus-arc")
-    implementation("io.quarkus:quarkus-smallrye-openapi")
+    implementation("io.quarkus:quarkus-container-image-docker:1.13.0.Final")
+    implementation("io.quarkus:quarkus-rest-client:1.13.0.Final")
+    implementation("io.quarkus:quarkus-resteasy-jackson:1.13.0.Final")
+    implementation("io.quarkus:quarkus-kotlin:1.13.0.Final")
+    implementation("io.quarkus:quarkus-resteasy:1.13.0.Final")
+    implementation("io.quarkus:quarkus-jdbc-h2:1.13.0.Final")
+    implementation("io.quarkus:quarkus-test-h2:1.13.0.Final")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin:1.13.0.Final")
+    implementation(("io.quarkus:quarkus-hibernate-validator:1.13.0.Final"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.0")
+    implementation("io.quarkus:quarkus-arc:1.13.0.Final")
+    implementation("io.quarkus:quarkus-smallrye-openapi:1.13.0.Final")
     implementation(project(":game-common"))
-    testImplementation("io.quarkus:quarkus-junit5")
-    testImplementation("org.hamcrest:hamcrest:[2,)")
-    testImplementation("io.rest-assured:rest-assured")
+    testImplementation("io.quarkus:quarkus-junit5:1.13.0.Final")
+    testImplementation("io.kotest:kotest-runner-junit5:4.3.2")
+    testImplementation("io.rest-assured:rest-assured:4.3.3")
 }
 
 group = "org.jd.benoggl"

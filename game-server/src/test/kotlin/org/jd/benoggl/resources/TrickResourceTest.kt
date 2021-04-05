@@ -1,11 +1,13 @@
 package org.jd.benoggl.resources
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.*
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.*
@@ -19,7 +21,6 @@ import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -84,14 +85,14 @@ class TrickResourceTest {
             .statusCode(200)
             .extract().body().`as`(Array<TrickDto>::class.java)
 
-        assertThat(dtos[0].number, Is(0))
-        assertThat(dtos[0].state, Is(TrickState.FINISHED))
-        assertThat(dtos[0].winnerUid, Is("player1"))
-        assertThat(dtos[0].pendingPlayerUids, Is(empty()))
-        assertThat(dtos[1].number, Is(1))
-        assertThat(dtos[1].state, Is(TrickState.RUNNING))
-        assertThat(dtos[1].winnerUid, Is(nullValue()))
-        assertThat(dtos[1].pendingPlayerUids, contains("player2", "player3"))
+        dtos[0].number shouldBe 0
+        dtos[0].state shouldBe TrickState.FINISHED
+        dtos[0].winnerUid shouldBe "player1"
+        dtos[0].pendingPlayerUids!!.shouldBeEmpty()
+        dtos[1].number shouldBe 1
+        dtos[1].state shouldBe TrickState.RUNNING
+        dtos[1].winnerUid.shouldBeNull()
+        dtos[1].pendingPlayerUids.shouldContainExactly("player2", "player3")
     }
 
     @Test
@@ -102,10 +103,10 @@ class TrickResourceTest {
             .statusCode(200)
             .extract().body().`as`(TrickDto::class.java)
 
-        assertThat(dto.number, Is(1))
-        assertThat(dto.state, Is(TrickState.RUNNING))
-        assertThat(dto.winnerUid, Is(nullValue()))
-        assertThat(dto.pendingPlayerUids, contains("player2", "player3"))
+        dto.number shouldBe 1
+        dto.state shouldBe TrickState.RUNNING
+        dto.winnerUid.shouldBeNull()
+        dto.pendingPlayerUids.shouldContainExactly("player2", "player3")
     }
 
     @Test

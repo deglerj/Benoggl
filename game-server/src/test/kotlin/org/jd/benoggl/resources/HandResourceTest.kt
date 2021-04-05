@@ -1,10 +1,10 @@
 package org.jd.benoggl.resources
 
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
-import org.hamcrest.MatcherAssert.assertThat
 import org.jd.benoggl.entities.*
 import org.jd.benoggl.models.*
 import org.jd.benoggl.resources.dtos.HandDto
@@ -15,7 +15,6 @@ import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -46,7 +45,7 @@ class HandResourceTest {
             .statusCode(200)
             .extract().body().`as`(HandDto::class.java)
 
-        assertThat(dto.type, Is(HandType.NORMAL))
+        dto.type shouldBe HandType.NORMAL
     }
 
     @Test

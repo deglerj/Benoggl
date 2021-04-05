@@ -1,14 +1,13 @@
 package org.jd.benoggl.rules.meldcombinations
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.junit.QuarkusTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.empty
-import org.hamcrest.Matchers.hasSize
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
 import org.junit.jupiter.api.Test
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class FourUntersFinderTest {
@@ -19,7 +18,7 @@ internal class FourUntersFinderTest {
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     @Test
@@ -34,9 +33,9 @@ internal class FourUntersFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, hasSize(1))
-        assertThat(combinations.first().type, Is((MeldCombinationType.FOUR_UNTERS)))
-        assertThat(combinations.first().points, Is((40)))
+        combinations shouldHaveSize 1
+        combinations.first().type shouldBe MeldCombinationType.FOUR_UNTERS
+        combinations.first().points shouldBe 40
     }
 
     @Test
@@ -55,7 +54,7 @@ internal class FourUntersFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, hasSize(2))
+        combinations shouldHaveSize 2
     }
 
     @Test
@@ -69,7 +68,7 @@ internal class FourUntersFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
 }

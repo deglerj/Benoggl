@@ -1,13 +1,13 @@
 package org.jd.benoggl.rules.meldcombinations
 
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.junit.QuarkusTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.models.Card
 import org.jd.benoggl.models.Rank
 import org.jd.benoggl.models.Suit
 import org.junit.jupiter.api.Test
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 internal class TrumpFamilyFinderTest {
@@ -18,7 +18,7 @@ internal class TrumpFamilyFinderTest {
     fun noCards() {
         val combinations = sut.findCombinations(emptyList(), Suit.ACORNS)
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     @Test
@@ -28,8 +28,9 @@ internal class TrumpFamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, hasSize(1))
-        assertThat(combinations, contains(hasProperty("points", Is(150))))
+        combinations shouldHaveSize 1
+        combinations.first().type shouldBe MeldCombinationType.TRUMP_FAMILY
+        combinations.first().points shouldBe 150
     }
 
     @Test
@@ -40,7 +41,7 @@ internal class TrumpFamilyFinderTest {
             Suit.BELLS
         )
 
-        assertThat(combinations, hasSize(2))
+        combinations shouldHaveSize 2
     }
 
     @Test
@@ -55,7 +56,7 @@ internal class TrumpFamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, hasSize(1))
+        combinations shouldHaveSize 1
     }
 
     @Test
@@ -69,7 +70,7 @@ internal class TrumpFamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertThat(combinations, Is(empty()))
+        combinations.shouldBeEmpty()
     }
 
     private fun createFamily(suit: Suit): Collection<Card> =

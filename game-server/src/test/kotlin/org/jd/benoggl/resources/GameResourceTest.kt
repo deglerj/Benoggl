@@ -1,12 +1,15 @@
 package org.jd.benoggl.resources
 
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import io.quarkus.test.common.QuarkusTestResource
 import io.quarkus.test.h2.H2DatabaseTestResource
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
 import org.jd.benoggl.entities.GameEntity
+import org.jd.benoggl.entities.PlayerEntity
 import org.jd.benoggl.models.BiddingState
 import org.jd.benoggl.models.GameState
 import org.jd.benoggl.models.GameType
@@ -24,7 +27,6 @@ import javax.inject.Inject
 import javax.persistence.EntityManager
 import javax.transaction.Transactional
 import javax.ws.rs.core.MediaType
-import org.hamcrest.Matchers.`is` as Is
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource::class)
@@ -67,21 +69,18 @@ class GameResourceTest {
 
         val gameEntity = GameEntity.findByUid("3")
 
-        assertThat(gameEntity, Is(notNullValue()))
-        assertThat(gameEntity?.uid, Is("3"))
-        assertThat(gameEntity?.state, Is(GameState.RUNNING))
-        assertThat(gameEntity?.type, Is(GameType.NORMAL))
-        assertThat(
-            gameEntity?.players, contains(
-                hasProperty("uid", Is("1")),
-                hasProperty("uid", Is("2"))
-            )
-        )
-        assertThat(gameEntity?.rounds, hasSize(1))
-        assertThat(gameEntity?.rounds?.get(0)?.state, Is(RoundState.BIDDING))
-        assertThat(gameEntity?.rounds?.get(0)?.bidding?.state, Is(BiddingState.RUNNING))
-        assertThat(gameEntity?.rounds?.get(0)?.dabb, Is(notNullValue()))
-        assertThat(gameEntity?.rounds?.get(0)?.playerHands, hasSize(2))
+        gameEntity.shouldNotBeNull()
+        gameEntity.uid shouldBe "3"
+        gameEntity.state shouldBe GameState.RUNNING
+        gameEntity.type shouldBe GameType.NORMAL
+        gameEntity.players
+            .map(PlayerEntity::uid)
+            .shouldContainExactly("1", "2")
+        gameEntity.rounds shouldHaveSize 1
+        gameEntity.rounds?.get(0)?.state shouldBe RoundState.BIDDING
+        gameEntity.rounds?.get(0)?.bidding?.state shouldBe BiddingState.RUNNING
+        gameEntity.rounds?.get(0)?.dabb.shouldNotBeNull()
+        gameEntity.rounds?.get(0)?.playerHands shouldHaveSize 2
     }
 
     @ParameterizedTest
@@ -184,7 +183,7 @@ class GameResourceTest {
             .statusCode(200)
             .extract().body().`as`(GameDto::class.java)
 
-        assertThat(getDto, Is(putDto))
+        getDto shouldBe putDto
     }
 
     @Test
