@@ -9,18 +9,18 @@ import javax.validation.constraints.Min
 @Table(name = "BID")
 open class BidEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<BidEntity, Long> {
+    companion object : PanacheCompanion<BidEntity> {
     }
 
     @Column(nullable = false)
     @Min(0)
-    var points: Int = -1
+    open var points: Int = -1
 
     @ManyToOne(optional = false)
-    lateinit var player: PlayerEntity
+    open lateinit var player: PlayerEntity
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "BIDDING_ID", nullable = false)
-    lateinit var bidding: BiddingEntity
+    open lateinit var bidding: BiddingEntity
 
 }

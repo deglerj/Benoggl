@@ -10,7 +10,7 @@ import javax.validation.constraints.Min
 @Table(name = "TRICK", uniqueConstraints = [UniqueConstraint(columnNames = ["NUMBER", "ROUND_ID"])])
 open class TrickEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<TrickEntity, Long> {
+    companion object : PanacheCompanion<TrickEntity> {
 
         fun findForRound(roundNumber: Int, gameUid: String) =
             TrickEntity.find("round.number = ?1 and round.game.uid = ?2", roundNumber, gameUid).list()
@@ -26,24 +26,24 @@ open class TrickEntity : PanacheEntity() {
 
     @Column(nullable = false)
     @Min(0)
-    var number: Int = -1
+    open var number: Int = -1
 
     @Column(nullable = false)
-    lateinit var state: TrickState
+    open lateinit var state: TrickState
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "trick")
     @OrderBy("number ASC")
-    lateinit var moves: MutableList<MoveEntity>
+    open lateinit var moves: MutableList<MoveEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "pendingInTrick")
-    lateinit var pendingPlayers: MutableList<PlayerEntity>
+    open lateinit var pendingPlayers: MutableList<PlayerEntity>
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WINNER_PLAYER_ID")
-    var winner: PlayerEntity? = null
+    open var winner: PlayerEntity? = null
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ROUND_ID", nullable = false)
-    lateinit var round: RoundEntity
+    open lateinit var round: RoundEntity
 
 }

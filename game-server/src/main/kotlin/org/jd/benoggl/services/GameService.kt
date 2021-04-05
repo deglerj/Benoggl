@@ -71,7 +71,7 @@ class GameService {
         return gameEntity.players
             .map { player -> PlayerWithPoints(player, calculatePointsForPlayer(player)) }
             .filter { playerWithPoints -> playerWithPoints.points >= POINTS_TO_WIN }
-            .maxBy(PlayerWithPoints::points)
+            .maxByOrNull(PlayerWithPoints::points)
             ?.player
             ?.toModel()
     }

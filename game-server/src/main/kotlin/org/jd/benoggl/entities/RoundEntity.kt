@@ -12,7 +12,7 @@ import javax.validation.constraints.Min
 @Table(name = "ROUND")
 open class RoundEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<RoundEntity, Long> {
+    companion object : PanacheCompanion<RoundEntity> {
 
         fun findByGameUid(gameUid: String): List<RoundEntity> =
             RoundEntity.find("game.uid = ?1 order by number", gameUid).list()
@@ -24,36 +24,36 @@ open class RoundEntity : PanacheEntity() {
 
     @Column(nullable = false)
     @Min(0)
-    var number: Int = -1
+    open var number: Int = -1
 
     @Column(nullable = false)
-    lateinit var state: RoundState
+    open lateinit var state: RoundState
 
     @Column(nullable = false)
-    lateinit var type: RoundType
+    open lateinit var type: RoundType
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GAME_ID", nullable = false)
-    lateinit var game: GameEntity
+    open lateinit var game: GameEntity
 
     @OneToOne(optional = false, cascade = [CascadeType.ALL], orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "BIDDING_ID", nullable = false)
-    lateinit var bidding: BiddingEntity
+    open lateinit var bidding: BiddingEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
-    var melds: MutableCollection<MeldEntity> = mutableListOf()
+    open var melds: MutableCollection<MeldEntity> = mutableListOf()
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "round")
-    lateinit var playerHands: MutableCollection<PlayerHandEntity>
+    open lateinit var playerHands: MutableCollection<PlayerHandEntity>
 
-    var trump: Suit? = null
+    open var trump: Suit? = null
 
     @ManyToOne(cascade = [CascadeType.ALL], optional = false)
     @JoinColumn(name = "DABB_HAND_ID", nullable = false)
-    lateinit var dabb: HandEntity
+    open lateinit var dabb: HandEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
     @OrderBy("number ASC")
-    var tricks: MutableCollection<TrickEntity> = mutableListOf()
+    open var tricks: MutableCollection<TrickEntity> = mutableListOf()
 
 }

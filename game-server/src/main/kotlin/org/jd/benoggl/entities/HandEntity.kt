@@ -9,7 +9,7 @@ import javax.persistence.*
 @Table(name = "HAND")
 open class HandEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<HandEntity, Long> {
+    companion object : PanacheCompanion<HandEntity> {
 
         fun findForPlayer(playerUid: String, roundNumber: Int, gameUid: String) =
             HandEntity.find(
@@ -21,14 +21,14 @@ open class HandEntity : PanacheEntity() {
     }
 
     @Column(nullable = false)
-    lateinit var type: HandType
+    open lateinit var type: HandType
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "hand")
-    lateinit var cards: MutableCollection<CardEntity>
+    open lateinit var cards: MutableCollection<CardEntity>
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "hand")
-    var playerHand: PlayerHandEntity? = null
+    open var playerHand: PlayerHandEntity? = null
 
     @OneToOne(mappedBy = "dabb", fetch = FetchType.LAZY)
-    var round: RoundEntity? = null
+    open var round: RoundEntity? = null
 }

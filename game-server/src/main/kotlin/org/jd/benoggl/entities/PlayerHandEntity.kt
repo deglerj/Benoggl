@@ -9,7 +9,7 @@ import javax.persistence.PersistenceException
 @Table(name = "PLAYER_HAND")
 open class PlayerHandEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<PlayerHandEntity, Long> {
+    companion object : PanacheCompanion<PlayerHandEntity> {
 
         fun findPlayerHand(playerUid: String, gameUid: String, roundNumber: Int): PlayerHandEntity {
             val entities = PlayerHandEntity.find(
@@ -32,15 +32,15 @@ open class PlayerHandEntity : PanacheEntity() {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "PLAYER_ID", nullable = false)
-    lateinit var player: PlayerEntity
+    open lateinit var player: PlayerEntity
 
     @OneToOne(cascade = [CascadeType.ALL], optional = false)
     @JoinColumn(name = "HAND_ID", nullable = false)
-    lateinit var hand: HandEntity
+    open lateinit var hand: HandEntity
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ROUND_ID", nullable = false)
-    lateinit var round: RoundEntity
+    open lateinit var round: RoundEntity
 
 
 }

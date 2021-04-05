@@ -10,17 +10,17 @@ import javax.validation.constraints.Min
 @Table(name = "BIDDING")
 open class BiddingEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<BiddingEntity, Long> {
+    companion object : PanacheCompanion<BiddingEntity> {
     }
 
     @Column(nullable = false)
-    lateinit var state: BiddingState
+    open lateinit var state: BiddingState
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "bidding")
-    lateinit var round: RoundEntity
+    open lateinit var round: RoundEntity
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "bidding")
-    var bids: MutableCollection<BidEntity> = mutableListOf()
+    open var bids: MutableCollection<BidEntity> = mutableListOf()
 
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
@@ -28,12 +28,12 @@ open class BiddingEntity : PanacheEntity() {
         joinColumns = [JoinColumn(name = "BIDDING_ID")],
         inverseJoinColumns = [JoinColumn(name = "PLAYER_ID")]
     )
-    lateinit var challengers: MutableList<PlayerEntity>
+    open lateinit var challengers: MutableList<PlayerEntity>
 
     @ManyToOne(cascade = [CascadeType.ALL])
-    var highestBidder: PlayerEntity? = null
+    open var highestBidder: PlayerEntity? = null
 
     @Min(0)
-    var highestBid: Int? = 0
+    open var highestBid: Int? = 0
 
 }

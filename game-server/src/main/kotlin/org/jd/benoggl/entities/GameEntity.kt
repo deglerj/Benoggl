@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank
 @Table(name = "GAME", uniqueConstraints = [UniqueConstraint(columnNames = ["uid"])])
 open class GameEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<GameEntity, Long> {
+    companion object : PanacheCompanion<GameEntity> {
 
         fun findByUid(gameUid: String): GameEntity? =
             GameEntity.find("uid = ?1", gameUid).firstResult()
@@ -19,18 +19,18 @@ open class GameEntity : PanacheEntity() {
 
     @Column(nullable = false)
     @NotBlank
-    lateinit var uid: String
+    open lateinit var uid: String
 
     @Column(nullable = false)
-    lateinit var state: GameState
+    open lateinit var state: GameState
 
     @Column(nullable = false)
-    lateinit var type: GameType
+    open lateinit var type: GameType
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
     @OrderBy("number ASC")
-    lateinit var rounds: MutableList<RoundEntity>
+    open lateinit var rounds: MutableList<RoundEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "game")
-    lateinit var players: MutableList<PlayerEntity>
+    open lateinit var players: MutableList<PlayerEntity>
 }

@@ -77,10 +77,10 @@ class GameResourceTest {
             .map(PlayerEntity::uid)
             .shouldContainExactly("1", "2")
         gameEntity.rounds shouldHaveSize 1
-        gameEntity.rounds?.get(0)?.state shouldBe RoundState.BIDDING
-        gameEntity.rounds?.get(0)?.bidding?.state shouldBe BiddingState.RUNNING
-        gameEntity.rounds?.get(0)?.dabb.shouldNotBeNull()
-        gameEntity.rounds?.get(0)?.playerHands shouldHaveSize 2
+        gameEntity.rounds[0].state shouldBe RoundState.BIDDING
+        gameEntity.rounds[0].bidding.state shouldBe BiddingState.RUNNING
+        gameEntity.rounds[0].dabb.shouldNotBeNull()
+        gameEntity.rounds[0].playerHands shouldHaveSize 2
     }
 
     @ParameterizedTest

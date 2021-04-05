@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank
 @Table(name = "PLAYER")
 open class PlayerEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<PlayerEntity, Long> {
+    companion object : PanacheCompanion<PlayerEntity> {
 
         fun findByUid(playerUid: String, gameUid: String): PlayerEntity? =
             PlayerEntity.find("uid = ?1 and game.uid = ?2", playerUid, gameUid).firstResult()
@@ -17,24 +17,24 @@ open class PlayerEntity : PanacheEntity() {
 
     @Column(nullable = false)
     @NotBlank
-    lateinit var uid: String
+    open lateinit var uid: String
 
     @Column(nullable = false)
     @NotBlank
-    lateinit var name: String
+    open lateinit var name: String
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
-    lateinit var playerHands: MutableCollection<PlayerHandEntity>
+    open lateinit var playerHands: MutableCollection<PlayerHandEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "player")
-    lateinit var moves: MutableCollection<MoveEntity>
+    open lateinit var moves: MutableCollection<MoveEntity>
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "GAME_ID", nullable = false)
-    lateinit var game: GameEntity
+    open lateinit var game: GameEntity
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "winner")
-    lateinit var wonTricks: MutableCollection<TrickEntity>
+    open lateinit var wonTricks: MutableCollection<TrickEntity>
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
@@ -42,14 +42,14 @@ open class PlayerEntity : PanacheEntity() {
         joinColumns = [JoinColumn(name = "TRICK_ID")],
         inverseJoinColumns = [JoinColumn(name = "PLAYER_ID")]
     )
-    var pendingInTrick: TrickEntity? = null
+    open var pendingInTrick: TrickEntity? = null
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "challengers")
-    lateinit var challengerInBiddings: MutableCollection<BiddingEntity>
+    open lateinit var challengerInBiddings: MutableCollection<BiddingEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "highestBidder")
-    lateinit var wonBiddings: MutableCollection<BiddingEntity>
+    open lateinit var wonBiddings: MutableCollection<BiddingEntity>
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "player")
-    lateinit var melds: MutableCollection<MeldEntity>
+    open lateinit var melds: MutableCollection<MeldEntity>
 }

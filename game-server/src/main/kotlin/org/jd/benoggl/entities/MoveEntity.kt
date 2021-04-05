@@ -9,7 +9,7 @@ import javax.validation.constraints.Min
 @Table(name = "MOVE")
 open class MoveEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<MoveEntity, Long> {
+    companion object : PanacheCompanion<MoveEntity> {
 
         fun findForTrick(trickNumber: Int, roundNumber: Int, gameUid: String) =
             TrickEntity.find(
@@ -31,17 +31,17 @@ open class MoveEntity : PanacheEntity() {
 
     @Column(nullable = false)
     @Min(0)
-    var number: Int = -1
+    open var number: Int = -1
 
     @OneToOne(optional = false, cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "CARD_ID", nullable = false)
-    lateinit var card: CardEntity
+    open lateinit var card: CardEntity
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "PLAYER_ID", nullable = false)
-    lateinit var player: PlayerEntity
+    open lateinit var player: PlayerEntity
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "TRICK_ID", nullable = false)
-    lateinit var trick: TrickEntity
+    open lateinit var trick: TrickEntity
 }

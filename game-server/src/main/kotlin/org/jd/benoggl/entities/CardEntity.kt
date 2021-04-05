@@ -10,14 +10,14 @@ import javax.persistence.*
 @Table(name = "CARD")
 open class CardEntity : PanacheEntity() {
 
-    companion object : PanacheCompanion<CardEntity, Long> {
+    companion object : PanacheCompanion<CardEntity> {
     }
 
     @Column(nullable = false)
-    lateinit var suit: Suit
+    open lateinit var suit: Suit
 
     @Column(nullable = false)
-    lateinit var rank: Rank
+    open lateinit var rank: Rank
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
@@ -25,7 +25,7 @@ open class CardEntity : PanacheEntity() {
         joinColumns = [JoinColumn(name = "HAND_ID")],
         inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
     )
-    var hand: HandEntity? = null
+    open var hand: HandEntity? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
@@ -33,9 +33,9 @@ open class CardEntity : PanacheEntity() {
         joinColumns = [JoinColumn(name = "MELD_ID")],
         inverseJoinColumns = [JoinColumn(name = "CARD_ID")]
     )
-    var meld: MeldEntity? = null
+    open var meld: MeldEntity? = null
 
     @OneToOne(mappedBy = "card", fetch = FetchType.LAZY)
-    var move: MoveEntity? = null
+    open var move: MoveEntity? = null
 
 }
