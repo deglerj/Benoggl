@@ -84,7 +84,7 @@ class BiddingResource {
 
     @DELETE
     @Path("/challenger/{playerUid}")
-    fun removeChallengers(
+    fun removeChallenger(
         @PathParam("gameUid") gameUid: String,
         @PathParam("roundNumber") roundNumber: Int,
         @PathParam("playerUid") playerUid: String

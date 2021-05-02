@@ -39,6 +39,8 @@ class MeldResource {
         @PathParam("roundNumber") roundNumber: Int,
         meld: MeldDto
     ) {
+        // TODO Extract method content to service
+
         validator.validateRestDto(meld)
 
         if (isMeldingForRoundNotActive(gameUid, roundNumber)) {
@@ -70,8 +72,24 @@ class MeldResource {
             throw BadRequestException("Meld contains cards that are not part of the player's hand.")
         }
 
-        val entity = createEntity(meld, cardEntities, gameUid, roundNumber)
-        entity.persist()
+        persistMeld(meld, cardEntities, gameUid, roundNumber)
+
+        if (isLastMeldForRound(gameUid, roundNumber)) {
+            finishMelding(gameUid, roundNumber)
+        }
+    }
+
+    private fun isLastMeldForRound(gameUid: String, roundNumber: Int): Boolean {
+        val round = RoundEntity.findByNumber(roundNumber, gameUid)!!
+        val melds = round.melds
+        val players = round.game.players
+        return melds.size == players.size
+    }
+
+    private fun finishMelding(gameUid: String, roundNumber: Int) {
+        val round = RoundEntity.findByNumber(roundNumber, gameUid)!!
+        round.state = RoundState.TRICKING
+        round.persist()
     }
 
 
@@ -120,8 +138,7 @@ class MeldResource {
         val cards = cardDtos.map(CardDto::toModel)
         val trump = RoundEntity.findByNumber(roundNumber, gameUid)!!.trump!!
         val maxPoints = MeldCombinationsInCardsFinder().findCombinations(cards, trump)
-            .map(MeldCombination::points)
-            .sum()
+            .sumOf(MeldCombination::points)
 
         return points > maxPoints
     }
@@ -147,18 +164,22 @@ class MeldResource {
             .filter { it.rank == card.rank }
             .firstOrNull { it.suit == card.suit }
 
-    private fun createEntity(
+    private fun persistMeld(
         meld: MeldDto,
         cards: Collection<CardEntity>,
         gameUid: String,
         roundNumber: Int
-    ): MeldEntity {
+    ) {
+        val player = PlayerEntity.findByUid(meld.playerUid!!, gameUid)!!
+        val round = RoundEntity.findByNumber(roundNumber, gameUid)!!
         val entity = MeldEntity()
-        entity.player = PlayerEntity.findByUid(meld.playerUid!!, gameUid)!!
-        entity.round = RoundEntity.findByNumber(roundNumber, gameUid)!!
+        entity.player = player
+        player.melds.add(entity)
+        entity.round = round
+        round.melds.add(entity)
         entity.points = meld.points!!
         entity.cards = cards.toMutableList()
-        return entity
+        entity.persist()
     }
 
 }

@@ -1,9 +1,6 @@
 package org.jd.benoggl.services
 
-import org.jd.benoggl.entities.BidEntity
-import org.jd.benoggl.entities.BiddingEntity
-import org.jd.benoggl.entities.PlayerEntity
-import org.jd.benoggl.entities.RoundEntity
+import org.jd.benoggl.entities.*
 import org.jd.benoggl.models.BiddingState
 import org.jd.benoggl.models.Player
 import org.jd.benoggl.models.RoundState
@@ -31,9 +28,35 @@ class BidService {
         bidding.challengers.removeAt(0)
 
         if (bidding.challengers.isEmpty()) {
-            bidding.state = BiddingState.FINISHED
+            finishBidding(bidding)
         }
     }
+
+    private fun finishBidding(bidding: BiddingEntity) {
+        bidding.state = BiddingState.FINISHED
+
+        val round = bidding.round
+        round.state = RoundState.MELDING
+
+        assignDabbToHighestBidder(bidding, round)
+    }
+
+    private fun assignDabbToHighestBidder(
+        bidding: BiddingEntity,
+        round: RoundEntity
+    ) {
+        val highestBidderHand =
+            PlayerHandEntity.findPlayerHand(bidding.highestBidder!!.uid, round.game.uid, round.number).hand
+        round.dabb.cards.forEach { card ->
+            highestBidderHand.cards.add(card)
+            card.hand = highestBidderHand
+            card.persist()
+        }
+        highestBidderHand.persist()
+        round.dabb.cards.clear()
+        round.dabb.persist()
+    }
+
 
     fun isValidBid(roundNumber: Int, gameUid: String, player: Player, points: Int): Boolean {
         if (!isCurrentChallenger(roundNumber, gameUid, player)) {

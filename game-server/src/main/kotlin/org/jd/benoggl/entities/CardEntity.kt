@@ -38,4 +38,8 @@ open class CardEntity : PanacheEntity() {
     @OneToOne(mappedBy = "card", fetch = FetchType.LAZY)
     open var move: MoveEntity? = null
 
+    override fun toString(): String {
+        return "CardEntity[id=$id, "
+    }
+
 }

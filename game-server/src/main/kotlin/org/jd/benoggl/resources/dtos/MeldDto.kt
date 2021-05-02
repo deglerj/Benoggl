@@ -18,6 +18,6 @@ data class MeldDto(
     @get:Min(0)
     val points: Int?,
 
-    val trump: Suit?
+    val trump: Suit? = null
 ) {
 }
