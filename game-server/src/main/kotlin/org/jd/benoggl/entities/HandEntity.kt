@@ -30,5 +30,8 @@ open class HandEntity : PanacheEntity() {
     open var playerHand: PlayerHandEntity? = null
 
     @OneToOne(mappedBy = "dabb", fetch = FetchType.LAZY)
-    open var round: RoundEntity? = null
+    open var dabbInRound: RoundEntity? = null
+
+    @OneToOne(mappedBy = "discard", fetch = FetchType.LAZY)
+    open var discardInRound: RoundEntity? = null
 }

@@ -29,7 +29,15 @@ class RoundService {
         gameEntity.rounds.add(round)
         round.bidding = createBidding(gameEntity)
         dealCards(game, gameEntity, round)
+        round.discard = createEmptyDiscard(round)
         round.persist()
+    }
+
+    private fun createEmptyDiscard(round: RoundEntity): HandEntity {
+        val discard = HandEntity()
+        discard.type = HandType.DISCARD
+        discard.discardInRound = round
+        return discard
     }
 
     private fun dealCards(

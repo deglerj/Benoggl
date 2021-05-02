@@ -52,6 +52,10 @@ open class RoundEntity : PanacheEntity() {
     @JoinColumn(name = "DABB_HAND_ID", nullable = false)
     open lateinit var dabb: HandEntity
 
+    @ManyToOne(cascade = [CascadeType.ALL], optional = false)
+    @JoinColumn(name = "DISCARD_HAND_ID", nullable = false)
+    open lateinit var discard: HandEntity
+
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "round")
     @OrderBy("number ASC")
     open var tricks: MutableCollection<TrickEntity> = mutableListOf()

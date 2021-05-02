@@ -93,6 +93,10 @@ class HandResourceTest {
         dabb.type = HandType.DABB
         dabb.persist()
 
+        val discard = HandEntity()
+        discard.type = HandType.DISCARD
+        discard.persist()
+
         val round = RoundEntity()
         round.number = roundNumber
         round.state = RoundState.TRICKING
@@ -100,6 +104,7 @@ class HandResourceTest {
         round.game = game
         round.bidding = bidding
         round.dabb = dabb
+        round.discard = discard
         round.persist()
 
         val hand = HandEntity()

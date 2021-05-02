@@ -64,6 +64,7 @@ card "0..n" <-- "0..1" meld
 card "1" <-- "0..1" move
 
 hand "1" <-- "0..1" round: "dabb"
+hand "1" <-- "0..1" round: "discard"
 hand "1" <-- "0..1" player_hand
 
 meld "0..n" <-- "1" round
@@ -78,7 +79,6 @@ player "1" <-- "0..n" meld
 player "1" <-- "0..n" move
 player "0..n" <-- "0..n" trick: "pending"
 player "0..1" <-- "0..n" trick: "winner"
-
 player "1" <-- "0..n" player_hand
 
 round "1..n" <-- "1" game
