@@ -28,9 +28,12 @@ class MoveEvaluator {
         val cardToBeat = findWinningCard(playedCards, trump) ?: return MoveEvaluationResult.WINS
 
         // Must play winning card
-        val playerHasWinningCard = hasCardBeatingOtherCard(playerHand.cards, cardToBeat, trump)
+        val winningCardsOnHand = findWinningCardsOnHand(playerHand.cards, cardToBeat, trump)
+        val playerHasWinningCard = winningCardsOnHand.isNotEmpty()
+        val playerHasOnlyWinningTrumpCards = winningCardsOnHand.all { card -> card.suit == trump }
+        val playerMustFollowSuitInsteadOfWin = playerHasSuit && playerHasOnlyWinningTrumpCards
         val cardToPlayIsWinning = isCardBeatingOtherCard(cardToPlay, cardToBeat, trump)
-        if (playerHasWinningCard && !cardToPlayIsWinning) {
+        if (playerHasWinningCard && !cardToPlayIsWinning && !playerMustFollowSuitInsteadOfWin) {
             return MoveEvaluationResult.WINNING_CARD_NOT_PLAYED
         }
 
@@ -39,20 +42,20 @@ class MoveEvaluator {
 
     private fun findWinningCard(playedCards: List<Card>, trump: Suit) =
         playedCards
-            .sortedWith(Comparator { card1, card2 ->
+            .sortedWith { card1, card2 ->
                 if (isCardBeatingOtherCard(card1, card2, trump)) {
                     -1
                 } else {
                     1
                 }
-            })
+            }
             .firstOrNull()
 
     private fun hasCardWithSuit(cards: MutableCollection<Card>, suit: Suit) =
         cards.findSuits(suit).any()
 
-    private fun hasCardBeatingOtherCard(cards: Collection<Card>, cardToBeat: Card, trump: Suit) =
-        cards.any { card -> isCardBeatingOtherCard(card, cardToBeat, trump) }
+    private fun findWinningCardsOnHand(cards: Collection<Card>, cardToBeat: Card, trump: Suit) =
+        cards.filter { card -> isCardBeatingOtherCard(card, cardToBeat, trump) }
 
     private fun isCardBeatingOtherCard(cardToPlay: Card, cardToBeat: Card, trump: Suit): Boolean {
         // Trump always wins

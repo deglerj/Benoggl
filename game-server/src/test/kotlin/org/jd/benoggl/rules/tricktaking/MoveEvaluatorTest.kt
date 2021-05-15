@@ -204,12 +204,25 @@ class MoveEvaluatorTest {
     }
 
     @Test
-    fun mustNotPlaySameCardIfSuitMatchedAndNoWinningCardAvailable() {
+    fun doesntHaveToPlaySameCardIfSuitMatchedAndNoWinningCardAvailable() {
         val playedCards = listOf(
             leavesUnter,
             leavesOber
         )
         val playerHand = handOf(leavesUnter, leavesOber)
+
+        val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
+
+        result shouldBe MoveEvaluationResult.LOOSES
+    }
+
+    @Test
+    fun mustFollowSuitEventIfTrumpOnHand() {
+        val playedCards = listOf(
+            leavesUnter,
+            leavesOber
+        )
+        val playerHand = handOf(leavesUnter, heartUnter)
 
         val result = sut.evaluate(playedCards, playerHand, leavesUnter, Suit.HEARTS)
 
