@@ -11,6 +11,10 @@ import javax.validation.constraints.Min
 open class BiddingEntity : PanacheEntity() {
 
     companion object : PanacheCompanion<BiddingEntity> {
+
+        fun findByNumber(number: Int, gameUid: String): BiddingEntity? =
+            BiddingEntity.find("round.number = ?1 and round.game.uid = ?2", number, gameUid).firstResult()
+
     }
 
     @Column(nullable = false)

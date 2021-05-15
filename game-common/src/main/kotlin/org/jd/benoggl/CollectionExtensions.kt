@@ -1,10 +1,14 @@
 package org.jd.benoggl
 
-inline fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): T? {
-    val index = this.indexOfFirst(predicate)
-    if (index == -1) {
-        return null
+inline fun <T> MutableCollection<T>.removeFirst(predicate: (T) -> Boolean): T? {
+    val iterator = this.iterator()
+    while (iterator.hasNext()) {
+        val next = iterator.next()
+        if (predicate(next)) {
+            iterator.remove()
+            return next
+        }
     }
 
-    return this.removeAt(index)
+    return null
 }
