@@ -9,6 +9,7 @@ import org.jd.benoggl.models.RoundState
 import org.jd.benoggl.removeFirst
 import org.jd.benoggl.resources.dtos.CardDto
 import org.jd.benoggl.resources.dtos.DiscardDto
+import org.jd.benoggl.services.TrickService
 import javax.enterprise.inject.Default
 import javax.inject.Inject
 import javax.transaction.Transactional
@@ -24,6 +25,10 @@ class DiscardResource {
     @Inject
     @field: Default
     internal lateinit var validator: Validator
+
+    @Inject
+    @field: Default
+    internal lateinit var trickService: TrickService
 
     @POST
     fun updateDiscard(
@@ -84,8 +89,7 @@ class DiscardResource {
 
     private fun finishDiscarding(gameUid: String, roundNumber: Int) {
         val round = RoundEntity.findByNumber(roundNumber, gameUid)!!
-        round.state = RoundState.TRICKING
-        round.persist()
+        trickService.startFirstTrick(round.toModel(), round.game.toModel())
     }
 
 }

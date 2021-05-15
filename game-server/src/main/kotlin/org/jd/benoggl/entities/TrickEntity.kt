@@ -33,10 +33,10 @@ open class TrickEntity : PanacheEntity() {
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "trick")
     @OrderBy("number ASC")
-    open lateinit var moves: MutableList<MoveEntity>
+    open var moves: MutableList<MoveEntity> = mutableListOf()
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "pendingInTrick")
-    open lateinit var pendingPlayers: MutableList<PlayerEntity>
+    open var pendingPlayers: MutableList<PlayerEntity> = mutableListOf()
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WINNER_PLAYER_ID")

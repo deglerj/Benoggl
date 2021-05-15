@@ -88,7 +88,7 @@ class MeldResource {
 
     private fun finishMelding(gameUid: String, roundNumber: Int) {
         val round = RoundEntity.findByNumber(roundNumber, gameUid)!!
-        round.state = RoundState.TRICKING
+        round.state = RoundState.DISCARDING
         round.persist()
     }
 

@@ -11,13 +11,8 @@ import org.jd.benoggl.entities.HandEntity
 import org.jd.benoggl.entities.RoundEntity
 import org.jd.benoggl.mappers.toModel
 import org.jd.benoggl.models.*
-import org.jd.benoggl.resources.BiddingResource
-import org.jd.benoggl.resources.HandResource
-import org.jd.benoggl.resources.MeldResource
-import org.jd.benoggl.resources.RoundResource
-import org.jd.benoggl.resources.dtos.BidDto
-import org.jd.benoggl.resources.dtos.CardDto
-import org.jd.benoggl.resources.dtos.MeldDto
+import org.jd.benoggl.resources.*
+import org.jd.benoggl.resources.dtos.*
 import org.jd.benoggl.services.GameService
 import org.jd.benoggl.services.RoundService
 import org.junit.jupiter.api.BeforeEach
@@ -59,6 +54,18 @@ class RoundIntegrationTest {
     @Inject
     @field:Default
     internal lateinit var handResource: HandResource
+
+    @Inject
+    @field:Default
+    internal lateinit var discardResource: DiscardResource
+
+    @Inject
+    @field:Default
+    internal lateinit var moveResource: MoveResource
+
+    @Inject
+    @field:Default
+    internal lateinit var trickResource: TrickResource
 
 
     @BeforeEach
@@ -230,8 +237,47 @@ class RoundIntegrationTest {
         )
 
         meldResource.getMelds("game1", 0) shouldHaveSize 3
+        roundResource.getRound("game1", 0).state shouldBe RoundState.DISCARDING
+
+        // Discarding: Player 3 discards acorns 10, acorns unter, leaves king and hearts under
+        discardResource.updateDiscard(
+            "game1", 0, DiscardDto(
+                cards = listOf(
+                    CardDto(Suit.ACORNS, Rank.TEN),
+                    CardDto(Suit.ACORNS, Rank.UNTER),
+                    CardDto(Suit.LEAVES, Rank.KING),
+                    CardDto(Suit.HEARTS, Rank.UNTER)
+
+                ),
+                playerUid = "player3"
+            )
+        )
+
         roundResource.getRound("game1", 0).state shouldBe RoundState.TRICKING
+
+        // Tricking
+        getTrick(0).state shouldBe TrickState.RUNNING
+        getTrick(0).pendingPlayerUids?.size shouldBe 3
+        placeMove("player1", Suit.LEAVES, Rank.ACE)
+        placeMove("player2", Suit.LEAVES, Rank.UNTER)
+        placeMove("player3", Suit.LEAVES, Rank.ACE)
+        getTrick(0).winnerUid shouldBe "player1"
+        getTrick(0).state shouldBe TrickState.FINISHED
+        getTrick(0).pendingPlayerUids?.size shouldBe 0
+        getTrick(1).state shouldBe TrickState.RUNNING
     }
+
+    private fun placeMove(playerUid: String, suit: Suit, rank: Rank) {
+        val trickNumber = trickResource.getTricks("game1", 0).size - 1
+        moveResource.addMove(
+            gameUid = "game1",
+            roundNumber = 0,
+            trickNumber = trickNumber,
+            move = MoveDto(playerUid, CardDto(suit, rank))
+        )
+    }
+
+    private fun getTrick(number: Int) = trickResource.getTrick("game1", 0, number)
 
 
 }
