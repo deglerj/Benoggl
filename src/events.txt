@@ -1,0 +1,17 @@
+- Client sends event to backend
+- Backend executes event, error if not executable
+- Backend distributes event to clients (not always to all, CardsDistributed e.g. only to matching players)
+- Clients execute event
+- Each event has an explain method for debugging
+- Backend events can create child events
+
+- RoundStarted (backend-only, 1 per round)
+    - CardsDealt (backend-only, 1 per round)
+        - CardsDealt (backend & frontend, 2-3 per round)
+        - DabbPlaced (backend-only, 1 per round)
+    - BiddingStarted (backend-only, 1 per round)
+- BidPlaced
+- BidPassed
+    - BiddingEnded
+    - DabbAssigned
+- ...
