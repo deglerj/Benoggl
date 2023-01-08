@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:;DB_CLOSE_DELAY=-1;USER=sa;PASSWORD=sa
+    username: sa
+    password: sa
+    schema: classpath:schema.sql
+  sql:
+    init:
+      mode: always

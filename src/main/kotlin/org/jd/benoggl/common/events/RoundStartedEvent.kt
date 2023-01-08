@@ -1,11 +1,13 @@
 package org.jd.benoggl.common.events
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jd.benoggl.common.models.Game
 import org.jd.benoggl.common.models.Round
 
 @Serializable
-class RoundStartedEvent : BackendOnlyEvent {
+@SerialName("round-started")
+object RoundStartedEvent : Event {
 
     override fun apply(game: Game) {
         val number = game.rounds.size
@@ -14,8 +16,8 @@ class RoundStartedEvent : BackendOnlyEvent {
 
     override fun createChildEvents(game: Game): List<Event> {
         return listOf(
-            CardsDealtEvent()
-//            BiddingStartedEvent()
+            CardsDealtEvent(),
+            BiddingStartedEvent
         )
     }
 

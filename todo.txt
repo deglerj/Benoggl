@@ -1,0 +1,2 @@
+- Events should check game state
+- Events should check round state

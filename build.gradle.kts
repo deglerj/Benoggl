@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -27,6 +28,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
+    runtimeOnly("io.r2dbc:r2dbc-h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.5.4")

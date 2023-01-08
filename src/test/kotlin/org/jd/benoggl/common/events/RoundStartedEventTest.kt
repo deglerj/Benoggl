@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test
 
 internal class RoundStartedEventTest {
 
-    private val sut = RoundStartedEvent()
+    private val sut = RoundStartedEvent
 
     @Test
     fun apply_newGame_addsFirstRound() {
-        val game = Game(uid = "game", players = listOf())
+        val game = Game()
 
         sut.apply(game)
 
@@ -24,7 +24,6 @@ internal class RoundStartedEventTest {
     @Test
     fun apply_gameWithMultipleRounds_addsNextRound() {
         val game = Game(
-            uid = "game", players = listOf(),
             rounds = mutableListOf(Round(0), Round(1))
         )
 

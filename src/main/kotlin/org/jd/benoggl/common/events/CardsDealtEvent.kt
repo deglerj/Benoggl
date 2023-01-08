@@ -1,10 +1,12 @@
 package org.jd.benoggl.common.events
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.jd.benoggl.common.models.*
 
 @Serializable
-data class CardsDealtEvent(val deck: List<Card> = Card.createDeck().shuffled()) : BackendOnlyEvent {
+@SerialName("cards-dealt")
+data class CardsDealtEvent(val deck: List<Card> = Card.createDeck().shuffled()) : Event {
 
     override fun apply(game: Game) {
         // This event only spawns child events to deal cards to players and place the dabb
