@@ -12,3 +12,5 @@ inline fun <T> MutableCollection<T>.removeFirst(predicate: (T) -> Boolean): T? {
 
     return null
 }
+
+fun <T> MutableList<T>.copyOf(): MutableList<T> = mutableListOf<T>().also { it.addAll(this) }
