@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Backend" type="JetRunConfigurationType">
+    <option name="ALTERNATIVE_JRE_PATH" value="Kotlin SDK" />
+    <option name="MAIN_CLASS_NAME" value="org.jd.benoggl.BenogglApplicationKt" />
+    <module name="benoggl.jvmMain" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
