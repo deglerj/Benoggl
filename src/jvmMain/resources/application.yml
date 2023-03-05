@@ -1,11 +1,8 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:;DB_CLOSE_DELAY=-1;USER=sa;PASSWORD=sa
+  r2dbc:
+    url: r2dbc:h2:mem:///~/db/benoggl
     username: sa
-    password: sa
-    schema: classpath:init_schema.sql
-  main:
-    lazy-initialization: true
+    password:
   rsocket:
     server:
       port: 7000

@@ -62,7 +62,6 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
                 implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
                 implementation("org.springframework.boot:spring-boot-starter-rsocket")
                 implementation("org.springframework.boot:spring-boot-starter-validation")
