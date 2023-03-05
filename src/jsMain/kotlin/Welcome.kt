@@ -1,19 +1,42 @@
+import client.RSocketClient
 import csstype.px
 import csstype.rgb
 import emotion.react.css
-import react.FC
-import react.Props
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jd.benoggl.common.models.Game
+import react.*
 import react.dom.html.InputType
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.input
-import react.useState
 
 external interface WelcomeProps : Props {
     var name: String
 }
 
+
 val Welcome = FC<WelcomeProps> { props ->
+
+    val (test, setTest) = useState("")
+
+    val scope = useMemo(dependencies = emptyArray()) { MainScope() }
+
+    useEffect(dependencies = emptyArray()) {
+        console.log("EFFECT")
+        scope.launch {
+            RSocketClient.requestEventStream()
+                .onEach {
+                    console.log(it)
+                    setTest(it.explain(Game()))
+                }
+                .launchIn(scope)
+        }
+    }
+
     var name by useState(props.name)
+
     div {
         css {
             padding = 5.px
@@ -33,5 +56,8 @@ val Welcome = FC<WelcomeProps> { props ->
         onChange = { event ->
             name = event.target.value
         }
+    }
+    div {
+        +"LAST TEST: $test"
     }
 }
