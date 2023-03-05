@@ -9,7 +9,8 @@ data class Game(
     val rounds: MutableList<Round> = mutableListOf(),
     val players: MutableList<Player> = mutableListOf(),
     var dabb: Dabb = Dabb(listOf()),
-    var bidding: Bidding = Bidding(mutableListOf())
+    var bidding: Bidding = Bidding(mutableListOf()),
+    var melding: Melding = Melding(mutableListOf())
 ) {
     val currentRound get() = rounds.last()
 }

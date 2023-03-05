@@ -13,6 +13,6 @@
     - BiddingStarted (backend-only, 1 per round)
 - BidPlaced
 - BidPassed
-    - BiddingEnded
+    - MeldingStarted
     - DabbAssigned
 - ...
