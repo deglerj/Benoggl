@@ -84,7 +84,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react:18.2.0-pre.346")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom:18.2.0-pre.346")
-                implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion:11.9.3-pre.346")
+                implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion:11.10.6-pre.515")
                 implementation("io.rsocket.kotlin:rsocket-core:0.15.4")
                 implementation("io.rsocket.kotlin:rsocket-ktor-client:0.15.4")
             }
