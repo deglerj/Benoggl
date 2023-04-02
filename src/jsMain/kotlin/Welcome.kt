@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jd.benoggl.common.models.Game
 import react.*
-import react.dom.html.InputType
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.input
+import web.html.InputType
 
 external interface WelcomeProps : Props {
     var name: String
