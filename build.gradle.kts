@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 plugins {
     id("org.springframework.boot") version "3.0.5"
     id("io.spring.dependency-management") version "1.1.0"
@@ -36,6 +38,10 @@ kotlin {
                 cssSupport {
                     enabled.set(true)
                 }
+            }
+            webpackTask {
+                mode = KotlinWebpackConfig.Mode.PRODUCTION
+                sourceMaps = false
             }
             runTask {
                 devServer = devServer?.copy(
