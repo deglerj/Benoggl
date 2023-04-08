@@ -4,6 +4,7 @@ import org.jd.benoggl.common.models.Card
 import org.jd.benoggl.common.models.Rank
 import org.jd.benoggl.common.models.Suit
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -25,9 +26,13 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.FAMILY)
-        assertEquals(combinations.first().points, 100)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.FAMILY, combinations.first().type)
+        assertEquals(100, combinations.first().points)
+        assertContains(
+            combinations.first().blockedCombinations,
+            BlockedMeldCombination(MeldCombinationType.PAIR, Suit.BELLS)
+        )
     }
 
     @Test
@@ -40,7 +45,13 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 3)
+        assertEquals(3, combinations.size)
+        combinations.forEach { combination ->
+            assertContains(
+                combination.blockedCombinations,
+                BlockedMeldCombination(MeldCombinationType.PAIR, combination.suit)
+            )
+        }
     }
 
     @Test
@@ -51,7 +62,14 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
+        combinations.forEach { combination ->
+            assertContains(
+                combination.blockedCombinations,
+                BlockedMeldCombination(MeldCombinationType.PAIR, Suit.BELLS)
+            )
+        }
+
     }
 
     @Test
@@ -66,7 +84,11 @@ internal class FamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
+        assertEquals(1, combinations.size)
+        assertContains(
+            combinations.first().blockedCombinations,
+            BlockedMeldCombination(MeldCombinationType.PAIR, Suit.BELLS)
+        )
     }
 
     @Test

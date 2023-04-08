@@ -16,8 +16,8 @@ internal class RoundStartedEventTest {
 
         sut.apply(game)
 
-        assertEquals(game.rounds.size, 1)
-        assertEquals(game.rounds[0].state, RoundState.NEW)
+        assertEquals(1, game.rounds.size)
+        assertEquals(RoundState.NEW, game.rounds[0].state)
     }
 
     @Test
@@ -28,8 +28,8 @@ internal class RoundStartedEventTest {
 
         sut.apply(game)
 
-        assertEquals(game.rounds.size, 3)
-        assertEquals(game.rounds[2].state, RoundState.NEW)
+        assertEquals(3, game.rounds.size)
+        assertEquals(RoundState.NEW, game.rounds[2].state)
     }
 
 

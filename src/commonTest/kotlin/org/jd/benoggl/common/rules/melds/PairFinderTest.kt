@@ -28,10 +28,10 @@ internal class PairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.PAIR)
-        assertEquals(combinations.first().points, 20)
-        assertEquals(combinations.first().suit, Suit.BELLS)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.PAIR, combinations.first().type)
+        assertEquals(20, combinations.first().points)
+        assertEquals(Suit.BELLS, combinations.first().suit)
     }
 
     @Test
@@ -50,7 +50,7 @@ internal class PairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 3)
+        assertEquals(3, combinations.size) // doesn't find trump pair
     }
 
     @Test
@@ -65,7 +65,7 @@ internal class PairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
     }
 
     @Test
@@ -79,7 +79,7 @@ internal class PairFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
+        assertEquals(1, combinations.size)
     }
 
     @Test

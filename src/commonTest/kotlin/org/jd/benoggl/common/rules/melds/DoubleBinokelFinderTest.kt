@@ -4,6 +4,7 @@ import org.jd.benoggl.common.models.Card
 import org.jd.benoggl.common.models.Rank
 import org.jd.benoggl.common.models.Suit
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -30,9 +31,13 @@ internal class DoubleBinokelFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.DOUBLE_BINOKEL)
-        assertEquals(combinations.first().points, 300)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.DOUBLE_BINOKEL, combinations.first().type)
+        assertEquals(300, combinations.first().points)
+        assertContains(
+            combinations.first().blockedCombinations,
+            BlockedMeldCombination(MeldCombinationType.BINOKEL)
+        )
     }
 
     @Test

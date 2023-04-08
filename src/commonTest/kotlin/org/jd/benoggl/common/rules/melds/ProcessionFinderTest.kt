@@ -51,9 +51,9 @@ internal class ProcessionFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.PROCESSION)
-        assertEquals(combinations.first().points, 240)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.PROCESSION, combinations.first().type)
+        assertEquals(240, combinations.first().points)
         assertNull(combinations.first().suit)
         assertContainsInAnyOrder(
             combinations.first().blockedCombinations, listOf(
@@ -89,9 +89,9 @@ internal class ProcessionFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
-        combinations.forEach { assertEquals(it.type, MeldCombinationType.PROCESSION) }
-        combinations.forEach { assertEquals(it.points, 240) }
+        assertEquals(2, combinations.size)
+        combinations.forEach { assertEquals(MeldCombinationType.PROCESSION, it.type) }
+        combinations.forEach { assertEquals(240, it.points) }
         combinations.forEach { assertNull(it.suit) }
     }
 

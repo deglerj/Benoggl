@@ -17,7 +17,7 @@ internal class CardsDealtEventTest {
     fun constructor_newInstance_hasFullDeck() {
         val sut = CardsDealtEvent()
 
-        assertEquals(sut.deck.size, Suit.values().size * Rank.values().size * 2)
+        assertEquals(Suit.values().size * Rank.values().size * 2, sut.deck.size)
     }
 
     @Test
@@ -27,7 +27,7 @@ internal class CardsDealtEventTest {
         val serialized = json.encodeToString(sut)
         val deserialized = json.decodeFromString<CardsDealtEvent>(serialized)
 
-        assertContentEquals(deserialized.deck, sut.deck)
+        assertContentEquals(sut.deck, deserialized.deck)
     }
 
 }

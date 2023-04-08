@@ -21,5 +21,5 @@ class TrumpFamilyFinder : MeldCombinationFinder {
     }
 
     private fun blockPair(trump: Suit): Collection<BlockedMeldCombination> =
-        listOf(BlockedMeldCombination(MeldCombinationType.PAIR, trump))
+        listOf(BlockedMeldCombination(MeldCombinationType.TRUMP_PAIR, trump))
 }

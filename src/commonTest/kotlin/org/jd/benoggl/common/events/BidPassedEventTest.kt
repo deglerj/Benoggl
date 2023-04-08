@@ -23,7 +23,7 @@ internal class BidPassedEventTest {
 
         sut.apply(game)
 
-        assertContentEquals(game.bidding.remainingPlayers, listOf(player1, player3))
+        assertContentEquals(listOf(player1, player3), game.bidding.remainingPlayers)
     }
 
     @Test
@@ -42,7 +42,7 @@ internal class BidPassedEventTest {
             sut.apply(game)
         }
 
-        assertContentEquals(game.bidding.remainingPlayers, listOf(player1, player2, player3))
+        assertContentEquals(listOf(player1, player2, player3), game.bidding.remainingPlayers)
     }
 
     @Test
@@ -61,7 +61,7 @@ internal class BidPassedEventTest {
             sut.apply(game)
         }
 
-        assertContentEquals(game.bidding.remainingPlayers, listOf(player1, player2, player3))
+        assertContentEquals(listOf(player1, player2, player3), game.bidding.remainingPlayers)
     }
 
     @Test
@@ -79,7 +79,7 @@ internal class BidPassedEventTest {
             sut.apply(game)
         }
 
-        assertContentEquals(game.bidding.remainingPlayers, listOf(player1, player2, player3))
+        assertContentEquals(listOf(player1, player2, player3), game.bidding.remainingPlayers)
     }
 
     @Test

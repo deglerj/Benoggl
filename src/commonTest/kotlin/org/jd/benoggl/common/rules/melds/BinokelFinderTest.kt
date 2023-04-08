@@ -29,9 +29,9 @@ internal class BinokelFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.BINOKEL)
-        assertEquals(combinations.first().points, 40)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.BINOKEL, combinations.first().type)
+        assertEquals(40, combinations.first().points)
     }
 
     @Test

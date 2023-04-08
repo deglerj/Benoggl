@@ -16,7 +16,7 @@ internal class BiddingStartedEventTest {
 
         sut.apply(game)
 
-        assertEquals(currentRound.state, RoundState.BIDDING)
+        assertEquals(RoundState.BIDDING, currentRound.state)
     }
 
 }

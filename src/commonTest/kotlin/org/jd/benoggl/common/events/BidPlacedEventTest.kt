@@ -22,8 +22,8 @@ internal class BidPlacedEventTest {
 
         sut.apply(game)
 
-        assertEquals(game.bidding.highestBid?.points, 150)
-        assertEquals(game.bidding.highestBid?.player, player1)
+        assertEquals(150, game.bidding.highestBid?.points)
+        assertEquals(player1, game.bidding.highestBid?.player)
     }
 
     @Test
@@ -60,9 +60,9 @@ internal class BidPlacedEventTest {
             sut.apply(game)
         }
 
-        assertEquals(game.bidding.bids.size, 1)
-        assertEquals(game.bidding.highestBid?.points, 200)
-        assertEquals(game.bidding.highestBid?.player, player1)
+        assertEquals(1, game.bidding.bids.size)
+        assertEquals(200, game.bidding.highestBid?.points)
+        assertEquals(player1, game.bidding.highestBid?.player)
     }
 
     @Test

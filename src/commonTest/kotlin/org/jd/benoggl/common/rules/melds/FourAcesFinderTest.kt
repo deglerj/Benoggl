@@ -30,9 +30,9 @@ internal class FourAcesFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.FOUR_ACES)
-        assertEquals(combinations.first().points, 100)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.FOUR_ACES, combinations.first().type)
+        assertEquals(100, combinations.first().points)
     }
 
     @Test
@@ -51,7 +51,7 @@ internal class FourAcesFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
     }
 
     @Test

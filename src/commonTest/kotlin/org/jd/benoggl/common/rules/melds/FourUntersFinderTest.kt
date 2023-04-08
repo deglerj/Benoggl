@@ -30,9 +30,9 @@ internal class FourUntersFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.FOUR_UNTERS)
-        assertEquals(combinations.first().points, 40)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.FOUR_UNTERS, combinations.first().type)
+        assertEquals(40, combinations.first().points)
     }
 
     @Test
@@ -51,7 +51,7 @@ internal class FourUntersFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
     }
 
     @Test

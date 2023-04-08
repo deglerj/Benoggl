@@ -30,9 +30,9 @@ internal class FourKingsFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.FOUR_KINGS)
-        assertEquals(combinations.first().points, 80)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.FOUR_KINGS, combinations.first().type)
+        assertEquals(80, combinations.first().points)
     }
 
     @Test
@@ -51,7 +51,7 @@ internal class FourKingsFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
     }
 
     @Test

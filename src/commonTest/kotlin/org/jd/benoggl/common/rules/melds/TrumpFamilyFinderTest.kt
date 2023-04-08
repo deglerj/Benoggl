@@ -4,6 +4,7 @@ import org.jd.benoggl.common.models.Card
 import org.jd.benoggl.common.models.Rank
 import org.jd.benoggl.common.models.Suit
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -25,9 +26,13 @@ internal class TrumpFamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
-        assertEquals(combinations.first().type, MeldCombinationType.TRUMP_FAMILY)
-        assertEquals(combinations.first().points, 150)
+        assertEquals(1, combinations.size)
+        assertEquals(MeldCombinationType.TRUMP_FAMILY, combinations.first().type)
+        assertEquals(150, combinations.first().points)
+        assertContains(
+            combinations.first().blockedCombinations,
+            BlockedMeldCombination(MeldCombinationType.TRUMP_PAIR, Suit.ACORNS)
+        )
     }
 
     @Test
@@ -38,7 +43,13 @@ internal class TrumpFamilyFinderTest {
             Suit.BELLS
         )
 
-        assertEquals(combinations.size, 2)
+        assertEquals(2, combinations.size)
+        combinations.forEach { combination ->
+            assertContains(
+                combination.blockedCombinations,
+                BlockedMeldCombination(MeldCombinationType.TRUMP_PAIR, Suit.BELLS)
+            )
+        }
     }
 
     @Test
@@ -53,7 +64,11 @@ internal class TrumpFamilyFinderTest {
             Suit.ACORNS
         )
 
-        assertEquals(combinations.size, 1)
+        assertEquals(1, combinations.size)
+        assertContains(
+            combinations.first().blockedCombinations,
+            BlockedMeldCombination(MeldCombinationType.TRUMP_PAIR, Suit.ACORNS)
+        )
     }
 
     @Test

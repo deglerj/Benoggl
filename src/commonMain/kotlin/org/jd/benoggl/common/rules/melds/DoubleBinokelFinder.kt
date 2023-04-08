@@ -13,7 +13,10 @@ class DoubleBinokelFinder : MeldCombinationFinder {
         }
 
         return listOf(
-            MeldCombination(MeldCombinationType.DOUBLE_BINOKEL, 300)
+            MeldCombination(
+                MeldCombinationType.DOUBLE_BINOKEL, 300,
+                blockedCombinations = listOf(BlockedMeldCombination(MeldCombinationType.BINOKEL))
+            )
         )
     }
 

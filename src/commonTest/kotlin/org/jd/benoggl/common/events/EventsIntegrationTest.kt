@@ -15,27 +15,27 @@ internal class EventsIntegrationTest {
     fun simpleGameWithOneRound() {
         // New game
         val game = Game()
-        assertEquals(game.state, GameState.RUNNING)
-        assertEquals(game.rounds.size, 0)
+        assertEquals(GameState.RUNNING, game.state)
+        assertEquals(0, game.rounds.size)
 
         // Add three players
         game apply PlayerAddedEvent("player1", "player1")
         game apply PlayerAddedEvent("player2", "player2")
         game apply PlayerAddedEvent("player3", "player3")
-        assertEquals(game.players.size, 3)
-        assertContentEquals(game.players.map { it.name }, listOf("player1", "player2", "player3"))
+        assertEquals(3, game.players.size)
+        assertContentEquals(listOf("player1", "player2", "player3"), game.players.map { it.name })
         val player1 = game.players.findByUid("player1")
         val player2 = game.players.findByUid("player2")
         val player3 = game.players.findByUid("player3")
 
         // Start round
         game apply RoundStartedEvent
-        assertEquals(game.rounds.size, 1)
+        assertEquals(1, game.rounds.size)
         game.players.forEach { player ->
-            assertEquals(player.hand.cards.size, 12)
+            assertEquals(12, player.hand.cards.size)
         }
-        assertEquals(game.dabb.cards.size, 4)
-        assertEquals(game.currentRound.state, RoundState.BIDDING)
+        assertEquals(4, game.dabb.cards.size)
+        assertEquals(RoundState.BIDDING, game.currentRound.state)
 
         // Overwrite dabb and player hands
         game.dabb = Dabb(
@@ -113,10 +113,10 @@ internal class EventsIntegrationTest {
         game apply BidPlacedEvent(250, player1.uid)
         game apply BidPlacedEvent(260, player3.uid)
         game apply BidPassedEvent(player1.uid)
-        assertEquals(game.currentRound.state, RoundState.MELDING)
-        assertContentEquals(game.bidding.remainingPlayers, listOf(player3))
-        assertEquals(game.bidding.highestBid?.player, player3)
-        assertEquals(game.bidding.highestBid?.points, 260)
+        assertEquals(RoundState.MELDING, game.currentRound.state)
+        assertContentEquals(listOf(player3), game.bidding.remainingPlayers)
+        assertEquals(player3, game.bidding.highestBid?.player)
+        assertEquals(260, game.bidding.highestBid?.points)
         assertTrue(player1.hand.cards.containsAll(game.dabb.cards))
     }
 

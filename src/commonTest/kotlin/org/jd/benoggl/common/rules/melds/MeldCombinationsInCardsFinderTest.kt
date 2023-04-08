@@ -1,12 +1,11 @@
 package org.jd.benoggl.common.rules.melds
 
+import org.jd.benoggl.common.assertContainsInAnyOrder
 import org.jd.benoggl.common.models.Card
 import org.jd.benoggl.common.models.MeldCombination
 import org.jd.benoggl.common.models.Rank
 import org.jd.benoggl.common.models.Suit
-import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.assertContentEquals
 import kotlin.test.assertTrue
 
 internal class MeldCombinationsInCardsFinderTest {
@@ -41,11 +40,13 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertContentEquals(combinations, listOf(MeldCombination(MeldCombinationType.PAIR, 20, Suit.BELLS)))
+        assertContainsMeldCombinations(
+            listOf(AssertedCombination(MeldCombinationType.PAIR, Suit.BELLS)),
+            combinations
+        )
     }
 
     @Test
-    @Ignore // FIXME
     fun twoCombinations() {
         val combinations = sut.findCombinations(
             listOf(
@@ -57,11 +58,12 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertContentEquals(
-            combinations, listOf(
-                MeldCombination(MeldCombinationType.TRUMP_PAIR, 40, Suit.ACORNS),
-                MeldCombination(MeldCombinationType.PAIR, 20, Suit.BELLS)
-            )
+        assertContainsMeldCombinations(
+            listOf(
+                AssertedCombination(MeldCombinationType.TRUMP_PAIR, Suit.ACORNS),
+                AssertedCombination(MeldCombinationType.PAIR, Suit.BELLS)
+            ),
+            combinations
         )
     }
 
@@ -77,16 +79,16 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertContentEquals(
-            combinations, listOf(
-                MeldCombination(MeldCombinationType.PAIR, 20, Suit.BELLS),
-                MeldCombination(MeldCombinationType.PAIR, 20, Suit.BELLS)
-            )
+        assertContainsMeldCombinations(
+            listOf(
+                AssertedCombination(MeldCombinationType.PAIR, Suit.BELLS),
+                AssertedCombination(MeldCombinationType.PAIR, Suit.BELLS)
+            ),
+            combinations
         )
     }
 
     @Test
-    @Ignore // FIXME
     fun combinationBlocksOtherCombination() {
         val combinations = sut.findCombinations(
             listOf(
@@ -98,15 +100,15 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertContentEquals(
-            combinations, listOf(
-                MeldCombination(MeldCombinationType.FAMILY, 100, Suit.BELLS)
-            )
+        assertContainsMeldCombinations(
+            listOf(
+                AssertedCombination(MeldCombinationType.FAMILY, Suit.BELLS)
+            ),
+            combinations
         )
     }
 
     @Test
-    @Ignore // FIXME
     fun combinationDoesntBlockCombinationWithDifferentSuit() {
         val combinations = sut.findCombinations(
             listOf(
@@ -120,15 +122,47 @@ internal class MeldCombinationsInCardsFinderTest {
             ), Suit.ACORNS
         )
 
-        assertContentEquals(
-            combinations, listOf(
-                MeldCombination(MeldCombinationType.FAMILY, 100, Suit.BELLS),
-                MeldCombination(MeldCombinationType.TRUMP_PAIR, 40, Suit.ACORNS)
-            )
+        assertContainsMeldCombinations(
+            listOf(
+                AssertedCombination(MeldCombinationType.FAMILY, Suit.BELLS),
+                AssertedCombination(MeldCombinationType.TRUMP_PAIR, Suit.ACORNS)
+            ),
+            combinations
         )
     }
 
-    //FIXME what about a family & additional pair in one suit?
+    @Test
+    fun combinationDoesntBlockSecondMeldCombination() {
+        // Family + additional pair
+        val combinations = sut.findCombinations(
+            listOf(
+                Card(Suit.BELLS, Rank.ACE),
+                Card(Suit.BELLS, Rank.TEN),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.BELLS, Rank.OBER),
+                Card(Suit.BELLS, Rank.UNTER),
+                Card(Suit.BELLS, Rank.KING),
+                Card(Suit.BELLS, Rank.OBER)
+            ), Suit.ACORNS
+        )
 
+        assertContainsMeldCombinations(
+            listOf(
+                AssertedCombination(MeldCombinationType.FAMILY, Suit.BELLS),
+                AssertedCombination(MeldCombinationType.PAIR, Suit.BELLS)
+            ),
+            combinations
+        )
+    }
+
+    private data class AssertedCombination(val type: MeldCombinationType, val suit: Suit?)
+
+    private fun assertContainsMeldCombinations(
+        expected: Collection<AssertedCombination>,
+        actual: Collection<MeldCombination>?
+    ) {
+        val assertedActual = actual?.map { AssertedCombination(it.type, it.suit) }
+        assertContainsInAnyOrder(expected, assertedActual)
+    }
 }
 

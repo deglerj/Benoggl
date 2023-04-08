@@ -21,8 +21,8 @@ internal class HandDealtEventTest {
 
         sut.apply(game)
 
-        assertSame(player1.hand, hand)
-        assertNotSame(player2.hand, hand)
+        assertSame(hand, player1.hand)
+        assertNotSame(hand, player2.hand)
     }
 
     @Test
@@ -36,7 +36,7 @@ internal class HandDealtEventTest {
             sut.apply(game)
         }
 
-        assertNotSame(player1.hand, hand)
+        assertNotSame(hand, player1.hand)
     }
 
 }

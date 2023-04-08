@@ -15,7 +15,7 @@ internal class DabbPlacedEventTest {
 
         sut.apply(game)
 
-        assertSame(game.dabb, dabb)
+        assertSame(dabb, game.dabb)
     }
 
 }

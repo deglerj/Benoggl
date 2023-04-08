@@ -33,8 +33,8 @@ class EventServiceTest() {
             val event = PlayerAddedEvent("player1")
             val game = sut.applyAndSave(event, UUID.randomUUID().toString())
 
-            assertEquals(eventRepo.count().block(), 1)
-            assertEquals(game.players.size, 1)
+            assertEquals(1, eventRepo.count().block())
+            assertEquals(1, game.players.size)
         }
     }
 
@@ -48,10 +48,10 @@ class EventServiceTest() {
             val game = sut.applyAndSave(RoundStartedEvent, gameUid)
 
             // 8 = 2 players + started + cards dealt + 2 hands dealt + dabb placed + bidding started
-            assertEquals(eventRepo.count().block(), 8)
+            assertEquals(8, eventRepo.count().block())
             game.players.forEach { assertTrue(it.hand.cards.size >= 1) }
-            assertEquals(game.dabb.cards.size, 4)
-            assertEquals(game.currentRound.state, RoundState.BIDDING)
+            assertEquals(4, game.dabb.cards.size)
+            assertEquals(RoundState.BIDDING, game.currentRound.state)
         }
     }
 
