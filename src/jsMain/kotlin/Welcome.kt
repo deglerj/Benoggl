@@ -1,6 +1,4 @@
 import client.RSocketClient
-import csstype.px
-import csstype.rgb
 import emotion.react.css
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.launchIn
@@ -10,6 +8,8 @@ import org.jd.benoggl.common.models.Game
 import react.*
 import react.dom.html.ReactHTML.div
 import react.dom.html.ReactHTML.input
+import web.cssom.px
+import web.cssom.rgb
 import web.html.InputType
 
 external interface WelcomeProps : Props {
