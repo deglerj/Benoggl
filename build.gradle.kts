@@ -72,7 +72,7 @@ kotlin {
                 implementation("org.springframework.boot:spring-boot-starter-rsocket")
                 implementation("org.springframework.boot:spring-boot-starter-validation")
                 implementation("org.springframework.boot:spring-boot-starter-web")
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.9.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
                 implementation("org.jetbrains.kotlin:kotlin-reflect")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
