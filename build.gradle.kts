@@ -3,7 +3,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    id("org.springframework.boot") version "3.1.0"
+    id("org.springframework.boot") version "3.1.2"
     id("io.spring.dependency-management") version "1.1.2"
     id("com.github.ben-manes.versions") version "0.47.0"
     kotlin("multiplatform") version "1.9.0"
