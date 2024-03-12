@@ -3,12 +3,12 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    id("org.springframework.boot") version "3.2.1"
-    id("io.spring.dependency-management") version "1.1.3"
-    id("com.github.ben-manes.versions") version "0.49.0"
-    kotlin("multiplatform") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
+    id("org.springframework.boot") version "3.2.3"
+    id("io.spring.dependency-management") version "1.1.4"
+    id("com.github.ben-manes.versions") version "0.51.0"
+    kotlin("multiplatform") version "1.9.23"
+    kotlin("plugin.spring") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
     application
 }
 
@@ -57,8 +57,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-                implementation("com.benasher44:uuid:0.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+                implementation("com.benasher44:uuid:0.8.2")
             }
         }
         val commonTest by getting {
@@ -72,7 +72,7 @@ kotlin {
                 implementation("org.springframework.boot:spring-boot-starter-rsocket")
                 implementation("org.springframework.boot:spring-boot-starter-validation")
                 implementation("org.springframework.boot:spring-boot-starter-web")
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.10.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
                 implementation("org.jetbrains.kotlin:kotlin-reflect")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -88,7 +88,7 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-                implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:1.0.0-pre.682"))
+                implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:1.0.0-pre.713"))
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
                 implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
